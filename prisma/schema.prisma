@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users{
+  Id String  @id @default(uuid())        
+  FirstName String @db.VarChar(100)
+  LastName String @db.VarChar(100)
+  Email String @db.VarChar(50) @unique
+  PhoneNumber String @db.VarChar(20)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  Accounts Accounts[]
+  Addresses Addresses[]
+}
+
+model Addresses{
+  Id String @id @default(uuid())
+  UserId String @db.VarChar(100)
+  LocationId String @db.VarChar(100)
+  Street String @db.VarChar(100)
+  Number String @db.VarChar(50)
+  Between String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  User   Users @relation(fields: [UserId], references: [Id])
+  Location   Locations @relation(fields: [LocationId], references: [Id])
+}
+
+model Accounts{
+  Id String  @id @default(uuid())  
+  UserId String @db.VarChar(100) 
+  RoleId String @db.VarChar(100)    
+  UserName String @db.VarChar(100) @unique
+  UserPass String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  EmailValidated Boolean @default(false)
+  FinalDate DateTime?
+  State Int @default(1)
+  
+  User   Users @relation(fields: [UserId], references: [Id])
+  Role Roles @relation(fields: [RoleId], references: [Id]) 
+}
+
+model Roles{
+  Id String  @id @default(uuid())      
+  RoleName String @db.VarChar(100)
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  Accounts Accounts[]
+}
+
+model Locations{
+  Id String  @id @default(uuid())       
+  ProvinceId String @db.VarChar(100)    
+  Name String @db.VarChar(100)
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  Province Provinces @relation(fields: [ProvinceId], references: [Id]) 
+  Address Addresses[]
+}
+
+model Provinces{
+  Id String  @id @default(uuid())       
+  CountryId String @db.VarChar(100)    
+  Name String @db.VarChar(100)
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  Country Countries @relation(fields: [CountryId], references: [Id])
+  Location Locations []
+}
+
+model Countries{
+  Id String  @id @default(uuid())        
+  Name String @db.VarChar(100)
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+  
+  Province Provinces []
+}
+
+model PaymentTypes{
+  Id String  @id @default(uuid())      
+  Name String @db.VarChar(100)
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+}
+
+model Contacts {
+  id String @id @default(uuid())
+  fullName String @db.VarChar(100)
+  email String @db.VarChar(50)
+  phone String @db.VarChar(20)
+  description String ? @db.VarChar(250)
+  completedAt DateTime ? @db.Timestamp()
+}
