@@ -1,3 +1,6 @@
+import { JsonObject } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../../helpers";
+
 export class DeleteAddressDto{
     constructor(
         public readonly Id: string
@@ -11,10 +14,10 @@ export class DeleteAddressDto{
         return returnObj;
     }
 
-    static delete(props:{[key:string]:any}):[string?,DeleteAddressDto?]{
+    static delete(props:{[key:string]:any}):[JsonObject?,DeleteAddressDto?]{
         const{ Id } = props;
 
-        if ( !Id ) return ['Debe seleccionar el telefono que desee eliminar',undefined];
+        if ( !Id ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar el telefono que desee eliminar'),undefined];
 
         return [undefined, new DeleteAddressDto(Id)]
     }

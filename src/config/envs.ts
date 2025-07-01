@@ -13,4 +13,12 @@ export const envs ={
     MAILER_SECRET_KEY:get('MAILER_SECRET_KEY').required().asString(),
     SEND_EMAIL:get('SEND_EMAIL').default('false').asBool(), 
     WEBSERVICE_URL:get('WEBSERVICE_URL').required().asString(), 
+
+    CLOUD_NAME: get('CLOUD_NAME').required().asString(),
+    CLOUDINARY_API_KEY: get('CLOUDINARY_API_KEY').required().asString(),    
+    CLOUDINARY_API_SECRET: get('CLOUDINARY_API_SECRET').required().asString(),
+    CLOUDINARY_UPLOAD_PRESET: get('CLOUDINARY_UPLOAD_PRESET').required().asString(),
+    CLOUD_URL: get('CLOUD_URL').required().asString(),
+    VERSION: get('VERSION').default('v1_1').asString(),   
+    BASE_UPLOAD_PRESET: get('BASE_UPLOAD_PRESET').required().asString(),
 }

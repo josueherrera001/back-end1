@@ -1,3 +1,5 @@
+import { JsonObject } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../../helpers";
 
 
 export class UpdateContactDto {
@@ -21,22 +23,22 @@ export class UpdateContactDto {
         return returnObj;
     }
 
-    static create(props:{[key:string]:any}):[string?, UpdateContactDto?]{
+    static create(props:{[key:string]:any}):[JsonObject?, UpdateContactDto?]{
         const { id, fullName,email,phone,description, completedAt } = props;
         let newCompletedAt = completedAt;
 
         if ( !id || isNaN(Number(id))){
-            return ['El codigo de identificacion no es valido', undefined];
+            return [ErrorSpecific.ErrorEmpty('El codigo de identificacion no es valido'), undefined];
         }
         if( completedAt){
             newCompletedAt = new Date( completedAt );
             if ( newCompletedAt.toString() === 'Invalid Date' ){
-                return ['La fecha no es valida. Debe ingresar una fecha valida', undefined];
+                return [ErrorSpecific.ErrorEmpty('La fecha no es valida. Debe ingresar una fecha valida'), undefined];
             }
         }
-        if( !fullName ) return ['Debe ingresar el nombre completo', undefined]
-        if( !email ) return ['Debe ingresar el correo electronico', undefined]
-        if( !phone ) return ['Debe ingresar el numero de telefono', undefined]
+        if( !fullName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre completo'), undefined]
+        if( !email ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el correo electronico'), undefined]
+        if( !phone ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el numero de telefono'), undefined]
 
         return [undefined, new UpdateContactDto( id, fullName,email,phone,description, newCompletedAt)];
     }

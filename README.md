@@ -26,11 +26,18 @@
 
     ## :Prisma
     Luego se tiene que correo el script de migracion para que pueda crear la base de datos.
-        "npx prisma migrate dev --name init "
+        "npx prisma db push "
     Con ese script se va a generar la base de datos, si esta bien configurador la cadena de conexion a tu server de base de datos.
 
     Cualquier modifiacacion que se realiza en la schema se tiene que correr ese script
     "npx prisma generate " para que pueda refrescar el modelo.
 
-Si ya tiene la base de datos creado, se tiene que corre este script a cada vez que se actualiza la schema de prima
-    "npx prisma migrate dev --create-only"
+    ## :Cloudinary
+        /* Coudinary*/
+        CLOUD_NAME=El nombre de asset
+        CLOUDINARY_API_KEY=Api key  
+        CLOUDINARY_API_SECRET=api secrete
+        CLOUD_URL=https://api.cloudinary.com/
+        VERSION=version
+        CLOUDINARY_UPLOAD_PRESET=preset
+        BASE_UPLOAD_PRESET=carpeta

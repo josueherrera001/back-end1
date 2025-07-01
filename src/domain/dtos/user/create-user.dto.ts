@@ -1,6 +1,8 @@
+import { JsonObject } from "@prisma/client/runtime/library";
 import { regularExps } from "../../../config/regular-exps";
 import { CreateAddressDto } from "../address/create-address.dto";
 import { RegisterAuthDto } from "../Auth/register-auth.dto";
+import { ErrorSpecific } from "../../../helpers";
 
 export class CreateUserDto{
     constructor(
@@ -28,16 +30,16 @@ export class CreateUserDto{
         return returnObj;
     }
 
-    static create(props:{[key:string]:any}):[string?,CreateUserDto?]{
+    static create(props:{[key:string]:any}):[JsonObject?,CreateUserDto?]{
         
         const{FirstName, LastName, Email, Phone,CreatedDate,auth,Address } = props;
 
-        if ( !FirstName ) return ['Debe ingresar el nombre de la persona',undefined];
-        if ( !LastName ) return ['Debe ingresar el apellido de la persona',undefined];
-        if ( !Address ) return ['Debe ingresar la direccion de la persona', undefined];
-        if ( !Email ) return ['Debe ingresar el correo de la persona', undefined];
-        if ( !regularExps.email.test(Email) ) return ['El correo no es valido', undefined];
-        if ( !Phone ) return ['Debe ingresar el telefono'];
+        if ( !FirstName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la persona'),undefined];
+        if ( !LastName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el apellido de la persona'),undefined];
+        if ( !Address ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la direccion de la persona'), undefined];
+        if ( !Email ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el correo de la persona'), undefined];
+        if ( !regularExps.email.test(Email) ) return [ErrorSpecific.ErrorEmpty('El correo no es valido'), undefined];
+        if ( !Phone ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el telefono')];
 
         const [error, CreateDto] = RegisterAuthDto.create(auth);
         if ( error ) return [error,undefined];

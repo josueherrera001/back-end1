@@ -1,4 +1,3 @@
-import { CustomError } from "../../helpers/error/custom.error";
 
 export class LoginEntity{
     constructor(
@@ -8,9 +7,6 @@ export class LoginEntity{
 
     static fromObject(object:{[key:string]:any}){
         const{ token, UserName} = object;
-
-        if( !token) throw CustomError.badRequest('Token invalido');
-        if( !UserName )throw CustomError.badRequest('Falta el nombre del usuario');
 
         return new LoginEntity( token,UserName);
     }

@@ -3,9 +3,18 @@ export * from './datasources/userDataSource';
 
 export * from './dtos';
 
+export * from './entities/address.entity';
+export * from './entities/category.entity';
 export * from './entities/contact.entity';
-export * from './entities/user.entity';
 export * from './entities/login.entity';
+export * from './entities/lot.entity';
+export * from './entities/menu.entity';
+export * from './entities/presentation.entity';
+export * from './entities/product.entity';
+export * from './entities/role.entity';
+export * from './entities/subcategory.entity';
+export * from './entities/supplier.entity';
+export * from './entities/user.entity';
 
 export * from './repositories/contact.repository';
 export * from './repositories/user-repository';

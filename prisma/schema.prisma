@@ -52,6 +52,9 @@ model Accounts{
   EmailValidated Boolean @default(false)
   FinalDate DateTime?
   State Int @default(1)
+
+  
+  AccountMenu AccountMenus []
   
   User   Users @relation(fields: [UserId], references: [Id])
   Role Roles @relation(fields: [RoleId], references: [Id]) 
@@ -59,7 +62,7 @@ model Accounts{
 
 model Roles{
   Id String  @id @default(uuid())      
-  RoleName String @db.VarChar(100)
+  Name String @db.VarChar(100)
   Description String @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
@@ -121,4 +124,119 @@ model Contacts {
   phone String @db.VarChar(20)
   description String ? @db.VarChar(250)
   completedAt DateTime ? @db.Timestamp()
+  CreatedDate DateTime  @db.Timestamp()
+  State Int @default(1)
+}
+
+model Menues{
+  Id String  @id @default(uuid())      
+  Name String @db.VarChar(100)      
+  Url String @db.VarChar(100)     
+  HasSubMenu Boolean
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+  
+  AccountMenu AccountMenus []
+}
+
+model AccountMenus{
+  Id String  @id @default(uuid())     
+  MenuIdId String @db.VarChar(100)     
+  AccountId String @db.VarChar(100)      
+  Name String @db.VarChar(100)
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+  Account   Accounts @relation(fields: [AccountId], references: [Id])
+  Menu   Menues @relation(fields: [MenuIdId], references: [Id])
+
+}
+
+model Categories{
+  Id String  @id @default(uuid())      
+  Name String @db.VarChar(100)  
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+  
+  SubCategory SubCategories []
+}
+
+model SubCategories{
+  Id String  @id @default(uuid())      
+  CategoryId String @db.VarChar(100)    
+  Name String @db.VarChar(100)  
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  Category   Categories @relation(fields: [CategoryId], references: [Id])  
+  
+  Product Products []
+}
+
+model Presentations{
+  Id String  @id @default(uuid())      
+  Name String @db.VarChar(100)  
+  Description String @db.VarChar(100)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  Product Products []
+}
+
+model Suppliers{  
+  Id String  @id @default(uuid())        
+  CompanyName String @db.VarChar(100)
+  Address String @db.VarChar(100)
+  Email String @db.VarChar(50) @unique
+  Phone String @db.VarChar(20)
+  Web String @db.VarChar(120)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+  
+  Product Products []
+}
+
+model Products{  
+  Id String  @id @default(uuid())        
+  SubCategoryId String @db.VarChar(100)
+  PresentationId String @db.VarChar(100)
+  SupplierId String @db.VarChar(50) @unique
+  Name String @db.VarChar(20)
+  ImageUrl String? @db.VarChar(200)
+  Description String @db.VarChar(120)
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  SubCategory   SubCategories @relation(fields: [SubCategoryId], references: [Id]) 
+  Presentation   Presentations @relation(fields: [PresentationId], references: [Id])
+  Supplier   Suppliers @relation(fields: [SupplierId], references: [Id])   
+  
+  Lot Lots []
+}
+
+model Lots{  
+  Id String  @id @default(uuid())        
+  ProductId String @db.VarChar(100)
+  LotCode String @db.VarChar(100)
+  ProductCode String @db.VarChar(50) @unique
+  ExpiredDate DateTime?
+  HasExpiredDate  Boolean
+  stock  BigInt
+  PurchasePrice  Decimal
+  SalePrice  Decimal
+  CreatedDate DateTime  @db.Timestamp()
+  FinalDate DateTime?
+  State Int @default(1)
+
+  Product   Products @relation(fields: [ProductId], references: [Id])
 }

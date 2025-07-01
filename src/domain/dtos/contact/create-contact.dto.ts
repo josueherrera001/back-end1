@@ -1,3 +1,6 @@
+import { JsonObject } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../../helpers";
+
 export class CreateContactDto {
     constructor( 
         public readonly fullName: string,
@@ -16,12 +19,12 @@ export class CreateContactDto {
         return returnObj;
     }
 
-    static create(props:{[key:string]:any}):[string?, CreateContactDto?]{
+    static create(props:{[key:string]:any}):[JsonObject?, CreateContactDto?]{
         const { fullName,email,phone,description } = props;
 
-        if( !fullName ) return ['Debe ingresar el nombre completo', undefined]
-        if( !email ) return ['Debe ingresar el correo electronico', undefined]
-        if( !phone ) return ['Debe ingresar el numero de telefono', undefined]
+        if( !fullName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre completo'), undefined]
+        if( !email ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el correo electronico'), undefined]
+        if( !phone ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el numero de telefono'), undefined]
 
         return [undefined, new CreateContactDto( fullName,email,phone,description )];
     }

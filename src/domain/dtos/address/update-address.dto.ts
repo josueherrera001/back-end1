@@ -1,3 +1,5 @@
+import { JsonObject } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../../helpers";
 
 export class UpdateAddressDto{
     constructor(
@@ -22,15 +24,15 @@ export class UpdateAddressDto{
         return returnObj;
     }
 
-    static update(props:{[key:string]:any}):[string?,UpdateAddressDto?]{
+    static update(props:{[key:string]:any}):[JsonObject?,UpdateAddressDto?]{
         const{Id,UserId, LocationId, Street, StreetNumber, BetweenStreet } = props;
         
-        if ( !Id )   return ['Debe seleccionar el usuario a modificar',undefined]
-        if ( !UserId ) return ['Debe seleccionar el usuario',undefined];
-        if ( !LocationId ) return ['Debe seleccionar la localidad',undefined];
-        if ( !Street ) return ['Debe ingresar el nombre de la calle',undefined];
-        if ( !StreetNumber ) return ['Debe ingresar el numero de la casa', undefined];
-        if ( !BetweenStreet ) return ['Debe ingresar la interseccion entre que calla a que calle', undefined];       
+        if ( !Id )   return [ErrorSpecific.ErrorEmpty('Debe seleccionar el usuario a modificar'),undefined]
+        if ( !UserId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar el usuario'),undefined];
+        if ( !LocationId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar la localidad'),undefined];
+        if ( !Street ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la calle'),undefined];
+        if ( !StreetNumber ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el numero de la casa'), undefined];
+        if ( !BetweenStreet ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la interseccion entre que calla a que calle'), undefined];       
 
         return [undefined, new UpdateAddressDto(Id,UserId, LocationId, Street, StreetNumber, BetweenStreet )]
     }

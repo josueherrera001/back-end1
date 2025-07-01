@@ -1,3 +1,5 @@
+import { JsonObject } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../../helpers";
 
 export class CreateAddressDto{
     constructor(
@@ -20,13 +22,13 @@ export class CreateAddressDto{
         return returnObj;
     }
 
-    static create(props:{[key:string]:any}):[string?,CreateAddressDto?]{
+    static create(props:{[key:string]:any}):[JsonObject?,CreateAddressDto?]{
         const{UserId, LocationId, Street, StreetNumber, BetweenStreet } = props;
 
-        if ( !LocationId ) return ['Debe ingresar la localidad',undefined];
-        if ( !Street ) return ['Debe ingresar el nombre de la calle',undefined];
-        if ( !StreetNumber ) return ['Debe ingresar el numero de la casa', undefined];
-        if ( !BetweenStreet ) return ['Debe ingresar la interseccion entre que calla a que calle', undefined];       
+        if ( !LocationId ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la localidad'),undefined];
+        if ( !Street ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la calle'),undefined];
+        if ( !StreetNumber ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el numero de la casa'), undefined];
+        if ( !BetweenStreet ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la interseccion entre que calla a que calle'), undefined];       
 
         return [undefined, new CreateAddressDto(UserId, LocationId, Street, StreetNumber, BetweenStreet )]
     }

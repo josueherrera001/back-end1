@@ -11,7 +11,7 @@ const swaggerDefinition: OAS3Definition  = {
         },
         servers: [
           {
-            url: `http://localhost:3000/api/${ envs.APP_API_VERSION }`,
+            url: `http://localhost:${ envs.PORT }/api/${ envs.APP_API_VERSION }`,
           },
         ],
         components: {

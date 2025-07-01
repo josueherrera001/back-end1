@@ -12,3 +12,35 @@ export * from './user/update-user.dto';
 export * from './address/create-address.dto';
 export * from './address/delete-address.dto';
 export * from './address/update-address.dto';
+
+export * from './category/create-category.dto';
+export * from './category/delete-category.dto';
+export * from './category/update-category.dto';
+
+export * from './lot/create-lot.dto';
+export * from './lot/delete-lot.dto';
+export * from './lot/update-lot.dto';
+
+export * from './menu/create-menu.dto';
+export * from './menu/delete-menu.dto';
+export * from './menu/update-menu.dto';
+
+export * from './presentation/create-presentation.dto';
+export * from './presentation/delete-presentation.dto';
+export * from './presentation/update-presentation.dto';
+
+export * from './products/create-product.dto';
+export * from './products/create-product.dto';
+export * from './products/update-product.dto';
+
+export * from './roles/create-role.dto';
+export * from './roles/delete-role.dto';
+export * from './roles/update-role.dto';
+
+export * from './subcategory/create-subcategory.dto';
+export * from './subcategory/delete-subcategory.dto';
+export * from './subcategory/update-subcategory.dto';
+
+export * from './supplier/create-supplier.dto';
+export * from './supplier/delete-supplier.dto';
+export * from './supplier/update-supplier.dto';

@@ -1,3 +1,6 @@
+import { JsonObject } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../../helpers";
+
 export class UpdateUserDto{
     constructor(
         public readonly Id: string,
@@ -16,12 +19,12 @@ export class UpdateUserDto{
         return returnObj;
     }
 
-    static update(props:{[key:string]:any}):[string?,UpdateUserDto?]{
-        const{id:Id,FirstName, LastName, Address, Phone } = props;
-        if ( !Id ) return ['Debe seleccionar el usuario a modificar',undefined];
-        if ( !FirstName ) return ['Debe ingresar el nombre de la persona',undefined];
-        if ( !LastName ) return ['Debe ingresar el apellido de la persona',undefined];
-        if ( !Phone ) return ['Debe ingresar el telefono'];
+    static update(props:{[key:string]:any}):[JsonObject?,UpdateUserDto?]{
+        const{id:Id,FirstName, LastName, Phone } = props;
+        if ( !Id ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar el usuario a modificar'),undefined];
+        if ( !FirstName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la persona'),undefined];
+        if ( !LastName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el apellido de la persona'),undefined];
+        if ( !Phone ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el telefono'),undefined];
 
         return [undefined, new UpdateUserDto(Id,FirstName, LastName, Phone )]
     }

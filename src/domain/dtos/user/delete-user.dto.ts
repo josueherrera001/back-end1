@@ -1,3 +1,6 @@
+import { JsonObject } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../../helpers";
+
 export class DeleteUserDto{
     constructor(
         public readonly Id: string
@@ -11,10 +14,10 @@ export class DeleteUserDto{
         return returnObj;
     }
 
-    static create(props:{[key:string]:any}):[string?,DeleteUserDto?]{
+    static create(props:{[key:string]:any}):[JsonObject?,DeleteUserDto?]{
         const{ Id } = props;
 
-        if ( !Id ) return ['Debe seleccionar la persona que desee eliminar',undefined];
+        if ( !Id ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar la persona que desee eliminar'),undefined];
 
         return [undefined, new DeleteUserDto(Id)]
     }
