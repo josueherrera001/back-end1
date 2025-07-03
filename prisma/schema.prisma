@@ -195,9 +195,9 @@ model Suppliers{
   Id String  @id @default(uuid())        
   CompanyName String @db.VarChar(100)
   Address String @db.VarChar(100)
-  Email String @db.VarChar(50) @unique
-  Phone String @db.VarChar(20)
-  Web String @db.VarChar(120)
+  Email String? @db.VarChar(50) @unique
+  Phone String? @db.VarChar(20)
+  Web String? @db.VarChar(120)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)

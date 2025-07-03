@@ -1,5 +1,5 @@
 import { AddressEntity } from "../../entities/address.entity";
-import { AddressRepository } from "../../repositories/addressRepository";
+import { AddressRepository } from "../../repositories/address-repository";
 
 export interface GetAddressesUseCase {
     execute():Promise<AddressEntity[]>;

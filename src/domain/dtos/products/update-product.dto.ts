@@ -6,6 +6,7 @@ export class UpdateProductDto{
         public readonly Id: string,
         public readonly SubCategoryId: string,
         public readonly PresentationId: string,
+        public readonly SupplierId: string,
         public readonly Name: string,
         public readonly ImageUrl: string,
         public readonly Description: string
@@ -17,6 +18,7 @@ export class UpdateProductDto{
         if ( this.Id )  returnObj.Id = this.Id; 
         if (this.SubCategoryId) returnObj.SubCategoryId = this.SubCategoryId;
         if ( this.PresentationId ) returnObj.PresentationId = this.PresentationId;
+        if ( this.SupplierId ) returnObj.SupplierId = this.SupplierId;
         if ( this.Name )  returnObj.Name = this.Name;
         if ( this.ImageUrl ) returnObj.ImageUrl = this.ImageUrl;
         if ( this.Description )  returnObj.Description = this.Description;      
@@ -25,13 +27,14 @@ export class UpdateProductDto{
     }
 
     static update(props:{[key:string]:any}):[JsonObject?,UpdateProductDto?]{
-        const{Id,SubCategoryId, PresentationId, Name, ImageUrl, Description } = props;
+        const{Id,SubCategoryId, PresentationId, SupplierId, Name, ImageUrl, Description } = props;
         
         if ( !Id )   return [ErrorSpecific.ErrorEmpty('Debe seleccionar el producto a modificar'),undefined];
         if ( !SubCategoryId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar la subcategoria del producto'),undefined]; 
         if ( !PresentationId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar la presentacion del producto'),undefined]; 
+        if ( !SupplierId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar el proveedor del producto'),undefined]; 
         if ( !Name ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre del producto'),undefined];    
 
-        return [undefined, new UpdateProductDto(Id,SubCategoryId, PresentationId, Name, ImageUrl, Description )]
+        return [undefined, new UpdateProductDto(Id,SubCategoryId, PresentationId, SupplierId, Name, ImageUrl, Description )]
     }
 }

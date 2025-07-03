@@ -1,12 +1,12 @@
 import { CreateAddressDto } from "../../dtos";
 import { AddressEntity } from "../../entities/address.entity";
-import { AddressRepository } from "../../repositories/addressRepository";
+import { AddressRepository } from "../../repositories/address-repository";
 
-export interface CreateAddresstUseCase {
+export interface CreateAddressUseCase {
     execute(dto: CreateAddressDto):Promise<AddressEntity>;
 }
 
-export class CreateAddress implements  CreateAddresstUseCase{
+export class CreateAddress implements  CreateAddressUseCase{
     constructor(
         private readonly repostory: AddressRepository
     ){}
