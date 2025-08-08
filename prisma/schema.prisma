@@ -63,7 +63,7 @@ model Accounts{
 model Roles{
   Id String  @id @default(uuid())      
   Name String @db.VarChar(100)
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -75,7 +75,7 @@ model Locations{
   Id String  @id @default(uuid())       
   ProvinceId String @db.VarChar(100)    
   Name String @db.VarChar(100)
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -88,7 +88,7 @@ model Provinces{
   Id String  @id @default(uuid())       
   CountryId String @db.VarChar(100)    
   Name String @db.VarChar(100)
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -100,7 +100,7 @@ model Provinces{
 model Countries{
   Id String  @id @default(uuid())        
   Name String @db.VarChar(100)
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -111,7 +111,7 @@ model Countries{
 model PaymentTypes{
   Id String  @id @default(uuid())      
   Name String @db.VarChar(100)
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -146,7 +146,7 @@ model AccountMenus{
   MenuIdId String @db.VarChar(100)     
   AccountId String @db.VarChar(100)      
   Name String @db.VarChar(100)
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -158,7 +158,7 @@ model AccountMenus{
 model Categories{
   Id String  @id @default(uuid())      
   Name String @db.VarChar(100)  
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -170,7 +170,7 @@ model SubCategories{
   Id String  @id @default(uuid())      
   CategoryId String @db.VarChar(100)    
   Name String @db.VarChar(100)  
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -183,7 +183,7 @@ model SubCategories{
 model Presentations{
   Id String  @id @default(uuid())      
   Name String @db.VarChar(100)  
-  Description String @db.VarChar(100)
+  Description String? @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)
@@ -212,7 +212,7 @@ model Products{
   SupplierId String @db.VarChar(50) @unique
   Name String @db.VarChar(20)
   ImageUrl String? @db.VarChar(200)
-  Description String @db.VarChar(120)
+  Description String? @db.VarChar(120)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate DateTime?
   State Int @default(1)

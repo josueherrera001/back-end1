@@ -4,7 +4,13 @@ import { CreateContactDto, ContactDatasource, ContactEntity, UpdateContactDto } 
 export class ContactDataSourceInfra implements ContactDatasource {
     async create(createContactDto: CreateContactDto): Promise<ContactEntity> {
         const contact = await prisma.contacts.create({
-            data:createContactDto!
+            data:{
+                CreatedDate: new Date(),
+                fullName: createContactDto.fullName,    
+                email: createContactDto.email,
+                phone: createContactDto.phone,
+                description: createContactDto.description
+            }
         });
         return ContactEntity.fromObject( contact );
     }

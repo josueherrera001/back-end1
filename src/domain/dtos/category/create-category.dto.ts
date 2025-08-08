@@ -4,7 +4,7 @@ import { ErrorSpecific } from "../../../helpers";
 export class CreateCategoryDto{
     constructor(
         public readonly Name: string,
-        public readonly Description: string
+        public readonly Description?: string
     ){}
 
     get Values(){
@@ -17,7 +17,7 @@ export class CreateCategoryDto{
     }
 
     static create(props:{[key:string]:any}):[JsonObject?,CreateCategoryDto?]{
-        const{Name, Url, HasSubMenu, Description } = props;
+        const{Name, Description } = props;
 
         if ( !Name ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la categoria'),undefined];    
 

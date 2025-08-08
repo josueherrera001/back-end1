@@ -1,4 +1,3 @@
-import { Categories } from './../../../node_modules/.prisma/client/index.d';
 import { prisma } from "../../data";
 import { CategoryDatasource, CreateCategoryDto, CategoryEntity, UpdateCategoryDto } from "../../domain";
 
@@ -6,7 +5,7 @@ export class CategoryDataSourceInfra implements CategoryDatasource {
     async create(createDto: CreateCategoryDto): Promise<CategoryEntity> {
         const entity = await prisma.categories.create({
             data:{
-                Description: createDto.Description,
+                Description: createDto.Description ?? null,
                 Name: createDto.Name,
                 CreatedDate: new Date(),
             }

@@ -1,7 +1,7 @@
 import { prisma } from "../../data";
 import { CreateProductDto, ProductDatasource, ProductEntity, UpdateProductDto } from "../../domain";
 
-export class MenuDataSourceInfra implements ProductDatasource {
+export class ProductDataSourceInfra implements ProductDatasource {
     async create(createDto: CreateProductDto): Promise<ProductEntity> {
         const entity = await prisma.products.create({
             data:{

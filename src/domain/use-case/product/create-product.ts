@@ -6,7 +6,7 @@ export interface CreateProductUseCase {
     execute(dto: CreateProductDto):Promise<ProductEntity>;
 }
 
-export class CreatePoduct implements  CreateProductUseCase{
+export class CreateProduct implements  CreateProductUseCase{
     constructor(
         private readonly repostory: ProductRepository
     ){}
