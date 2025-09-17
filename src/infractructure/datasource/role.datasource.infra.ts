@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { RoleDatasource, CreateRoleDto, RoleEntity, UpdateRoleDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class RoleDataSourceInfra implements RoleDatasource {
     async create(createDto: CreateRoleDto): Promise<RoleEntity> {
@@ -26,7 +27,7 @@ export class RoleDataSourceInfra implements RoleDatasource {
             }
         });
 
-        if ( !entity ) throw `Id role:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id role:  ${ id } no encontrado`);
         return RoleEntity.fromObject(entity);
     }
     

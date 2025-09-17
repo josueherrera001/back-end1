@@ -41,3 +41,7 @@
         VERSION=version
         CLOUDINARY_UPLOAD_PRESET=preset
         BASE_UPLOAD_PRESET=carpeta
+    
+    ##: Seed
+        Para insertar menu y submenu por defecto hay que correr ese script para generar los datos
+        "npx prisma db seed"

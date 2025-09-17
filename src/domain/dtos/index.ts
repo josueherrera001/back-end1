@@ -41,6 +41,10 @@ export * from './subcategory/create-subcategory.dto';
 export * from './subcategory/delete-subcategory.dto';
 export * from './subcategory/update-subcategory.dto';
 
+export * from './submenu/create-submenu.dto';
+export * from './submenu/delete-submenu.dto';
+export * from './submenu/update-submenu.dto';
+
 export * from './supplier/create-supplier.dto';
 export * from './supplier/delete-supplier.dto';
 export * from './supplier/update-supplier.dto';

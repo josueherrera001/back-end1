@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { LotDatasource, LotEntity, CreateLotDto, UpdateLotDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class LotDataSourceInfra implements LotDatasource {
     async create(createDto: CreateLotDto): Promise<LotEntity> {
@@ -32,7 +33,7 @@ export class LotDataSourceInfra implements LotDatasource {
             }
         });
 
-        if ( !entity ) throw `Id lote:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id lote:  ${ id } no encontrado`);
         return LotEntity.fromObject(entity);
     }
     

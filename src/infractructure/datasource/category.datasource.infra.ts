@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { CategoryDatasource, CreateCategoryDto, CategoryEntity, UpdateCategoryDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class CategoryDataSourceInfra implements CategoryDatasource {
     async create(createDto: CreateCategoryDto): Promise<CategoryEntity> {
@@ -26,7 +27,7 @@ export class CategoryDataSourceInfra implements CategoryDatasource {
             }
         });
 
-        if ( !entity ) throw `Id categoria:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id categoria:  ${ id } no encontrado`);
         return CategoryEntity.fromObject(entity);
     }
     

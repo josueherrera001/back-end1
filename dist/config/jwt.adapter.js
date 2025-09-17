@@ -18,6 +18,7 @@ const envs_1 = require("./envs");
 class JwtAdapter {
     static generateToken(payload_1) {
         return __awaiter(this, arguments, void 0, function* (payload, /*duration:any = '2h'*/ duration = '100d') {
+            console.log(payload);
             return new Promise((resolve) => {
                 jsonwebtoken_1.default.sign(payload, envs_1.envs.JWT_SEED, {
                     expiresIn: duration

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginUserDto = void 0;
+const helpers_1 = require("../../../helpers");
 class LoginUserDto {
     constructor(UserName, Password) {
         this.UserName = UserName;
@@ -9,9 +10,9 @@ class LoginUserDto {
     static login(object) {
         const { UserName, Password } = object;
         if (!UserName)
-            return ['Ingresa el nombre del usuario', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Ingresa el nombre del usuario'), undefined];
         if (!Password)
-            return ['Ingresa la contraseña', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Ingresa la contraseña'), undefined];
         return [undefined, new LoginUserDto(UserName, Password)];
     }
 }

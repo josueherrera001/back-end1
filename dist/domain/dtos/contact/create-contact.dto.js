@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateContactDto = void 0;
+const helpers_1 = require("../../../helpers");
 class CreateContactDto {
     constructor(fullName, email, phone, description) {
         this.fullName = fullName;
@@ -21,11 +22,11 @@ class CreateContactDto {
     static create(props) {
         const { fullName, email, phone, description } = props;
         if (!fullName)
-            return ['Debe ingresar el nombre completo', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el nombre completo'), undefined];
         if (!email)
-            return ['Debe ingresar el correo electronico', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el correo electronico'), undefined];
         if (!phone)
-            return ['Debe ingresar el numero de telefono', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el numero de telefono'), undefined];
         return [undefined, new CreateContactDto(fullName, email, phone, description)];
     }
 }

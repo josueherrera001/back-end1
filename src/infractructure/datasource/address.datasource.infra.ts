@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { CreateAddressDto, AddressDatasource, AddressEntity, UpdateAddressDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class AddressDataSourceInfra implements AddressDatasource {
     async create(createDto: CreateAddressDto): Promise<AddressEntity> {
@@ -8,7 +9,9 @@ export class AddressDataSourceInfra implements AddressDatasource {
                 UserId: createDto.UserId,
                 Between: createDto.BetweenStreet,
                 Number: createDto.StreetNumber,
-                LocationId: createDto.LocationId,
+                Country: createDto.Country,
+                Province: createDto.Province,
+                Location: createDto.Location,
                 Street: createDto.Street,
                 CreatedDate: new Date(),
             }
@@ -29,7 +32,7 @@ export class AddressDataSourceInfra implements AddressDatasource {
             }
         });
 
-        if ( !entity ) throw `Id de la direccion:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id de la direccion:  ${ id } no encontrado`);
         return AddressEntity.fromObject(entity);
     }
     
@@ -45,7 +48,9 @@ export class AddressDataSourceInfra implements AddressDatasource {
                 UserId: updateContactDto.UserId,
                 Between: updateContactDto.BetweenStreet,
                 Number: updateContactDto.StreetNumber,
-                LocationId: updateContactDto.LocationId,
+                Country: updateContactDto.Country,
+                Province: updateContactDto.Province,
+                Location: updateContactDto.Location,
                 Street: updateContactDto.Street
             }
         });

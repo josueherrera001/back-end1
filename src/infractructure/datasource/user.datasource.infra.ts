@@ -11,6 +11,7 @@ import {
   LoginEntity,
 } from "../../domain";
 import { UserEntity } from "../../domain/entities/user.entity";
+import { ErrorSpecific } from "../../helpers";
 import { CustomError } from "../../helpers/error/custom.error";
 
 export class UserDataSourceInfra implements UserDatasource {
@@ -50,7 +51,9 @@ export class UserDataSourceInfra implements UserDatasource {
             {
               Between: createuserDto.Address.BetweenStreet,
               CreatedDate: new Date(Date.now()),
-              LocationId: createuserDto.Address.LocationId,
+              Country: createuserDto.Address.Country,
+              Province: createuserDto.Address.Province,
+              Location: createuserDto.Address.Location,
               Number: createuserDto.Address.StreetNumber,
               Street: createuserDto.Address.Street,
             },
@@ -95,7 +98,7 @@ export class UserDataSourceInfra implements UserDatasource {
       },
     });
 
-    if (!user) throw `Id usuario:  ${id} no encontrado`;
+    if (!user) throw ErrorSpecific.ErrorEmpty(`Id usuario:  ${id} no encontrado`);
     return UserEntity.fromObject(user);
   }
 

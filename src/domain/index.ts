@@ -9,7 +9,8 @@ export * from './datasources/menuDataSource';
 export * from './datasources/presentationDataSource';
 export * from './datasources/productDataSource';
 export * from './datasources/roleDataSource';
-export * from './datasources/subCategoryDataSource';    
+export * from './datasources/subCategoryDataSource';  
+export * from './datasources/submenuDataSource';  
 export * from './datasources/supplierDataSource';
 export * from './datasources/userDataSource';
 //#endregion
@@ -29,6 +30,7 @@ export * from './entities/presentation.entity';
 export * from './entities/product.entity';
 export * from './entities/role.entity';
 export * from './entities/subcategory.entity';
+export * from './entities/submenu.entity';
 export * from './entities/supplier.entity';
 export * from './entities/user.entity';
 //#endregion
@@ -44,6 +46,7 @@ export * from './repositories/presentation-repository';
 export * from './repositories/product-repository';
 export * from './repositories/role-repository';
 export * from './repositories/subCategory-repository';
+export * from './repositories/submenu-repository';
 export * from './repositories/supplier-repository';
 export * from './repositories/user-repository';
 //#endregion
@@ -112,6 +115,12 @@ export * from './use-case/subCategory/delete-subcategory';
 export * from './use-case/subCategory/get-Subcategory';
 export * from './use-case/subCategory/get-subcategories';
 export * from './use-case/subCategory/update-subcategory';
+
+export * from './use-case/submenu/create-submenu';
+export * from './use-case/submenu/delete-submenu';
+export * from './use-case/submenu/get-submenu';
+export * from './use-case/submenu/get-submenus';
+export * from './use-case/submenu/update-submenu';
 
 export * from './use-case/supplier/create-supplier';
 export * from './use-case/supplier/delete-supplier';

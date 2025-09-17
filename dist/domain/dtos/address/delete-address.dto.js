@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteAddressDto = void 0;
+const helpers_1 = require("../../../helpers");
 class DeleteAddressDto {
     constructor(Id) {
         this.Id = Id;
@@ -14,7 +15,7 @@ class DeleteAddressDto {
     static delete(props) {
         const { Id } = props;
         if (!Id)
-            return ['Debe seleccionar el telefono que desee eliminar', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe seleccionar el telefono que desee eliminar'), undefined];
         return [undefined, new DeleteAddressDto(Id)];
     }
 }

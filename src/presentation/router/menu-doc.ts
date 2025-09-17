@@ -8,7 +8,7 @@ export class MenuDoc  {
          *      tags:
          *        - menus
          *      summary: "menu list"
-         *      description: This endpoint is to list the total lots 
+         *      description: This endpoint is to list the total munus 
          *      responses:
          *        '200':
          *          description: Returns the object from the collection.
@@ -34,7 +34,7 @@ export class MenuDoc  {
          *              required:   true
          *              schema:
          *                  type:   string
-         *      description: This endpoint is used to filter lot by their ID. 
+         *      description: This endpoint is used to filter menu by their ID. 
          *      responses:
          *        '200':
          *          description: menu updated.
@@ -62,7 +62,7 @@ export class MenuDoc  {
          *                $ref: "#/components/schemas/menu"
          *      responses:
          *        '200':
-         *          description: lot created.
+         *          description: menu created.
          *        '401':
          *          description: Unauthorized or expired token.
          *        '500':

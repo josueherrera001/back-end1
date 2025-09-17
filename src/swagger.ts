@@ -55,12 +55,18 @@ const swaggerDefinition: OAS3Definition  = {
                   },
                   Address:{
                     type: "object",
-                    required: ["LocationId", "Street","StreetNumber","BetweenStreet"],
+                    required: ["LocationId","Country","Province","Location", "Street","StreetNumber","BetweenStreet"],
                     properties: {
-                      LocationId: {
+                      Country: {
+                        type: "string",
+                      },
+                      Province: {
                         type: "string",
                       },
                       Street: {
+                        type: "string",
+                      },
+                      Location: {
                         type: "string",
                       },
                       StreetNumber: {
@@ -129,6 +135,42 @@ const swaggerDefinition: OAS3Definition  = {
                   type: "string",
                 },
                 UserPass: {
+                  type: "string",
+                },
+              },
+            },
+            menu: {
+              type: "object",
+              required: ["Name", "Url","phone"],
+              properties: {
+                Name: {
+                  type: "string",
+                },
+                Url: {
+                  type: "string",
+                },
+                HasSubMenu: {
+                  type: "boolean",
+                },
+                Description: {
+                  type: "string",
+                },
+              },
+            },
+            submenu: {
+              type: "object",
+              required: ["MenuId","Name", "Url","phone"],
+              properties: {
+                MenuId: {
+                  type: "string",
+                },
+                Name: {
+                  type: "string",
+                },
+                Url: {
+                  type: "string",
+                },
+                Description: {
                   type: "string",
                 },
               },

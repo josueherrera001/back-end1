@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { CreateContactDto, ContactDatasource, ContactEntity, UpdateContactDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class ContactDataSourceInfra implements ContactDatasource {
     async create(createContactDto: CreateContactDto): Promise<ContactEntity> {
@@ -28,7 +29,7 @@ export class ContactDataSourceInfra implements ContactDatasource {
             }
         });
 
-        if ( !contact ) throw `Id contacto:  ${ id } no encontrado`;
+        if ( !contact ) throw ErrorSpecific.ErrorEmpty(`Id contacto:  ${ id } no encontrado`);
         return ContactEntity.fromObject(contact);
     }
     

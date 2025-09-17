@@ -1,5 +1,24 @@
 export const UserDoc = {
     /**
+         * Get all User 
+         * @openapi
+         * /users:
+         *    get:
+         *      tags:
+         *        - users
+         *      summary: "users list"
+         *      description: This endpoint is to list the total user 
+         *      responses:
+         *        '200':
+         *          description: Returns the object from the collection.
+         *        '401':
+         *          description: Unauthorized or expired token.
+         *        '500':
+         *          description: Internal Server Error.
+         *      security:
+         *       -  bearerAuth: []
+         */
+    /**
              * get User by Id
              * @openapi
              * /users/{Id}:

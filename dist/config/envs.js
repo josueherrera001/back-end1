@@ -13,4 +13,11 @@ exports.envs = {
     MAILER_SECRET_KEY: (0, env_var_1.get)('MAILER_SECRET_KEY').required().asString(),
     SEND_EMAIL: (0, env_var_1.get)('SEND_EMAIL').default('false').asBool(),
     WEBSERVICE_URL: (0, env_var_1.get)('WEBSERVICE_URL').required().asString(),
+    CLOUD_NAME: (0, env_var_1.get)('CLOUD_NAME').required().asString(),
+    CLOUDINARY_API_KEY: (0, env_var_1.get)('CLOUDINARY_API_KEY').required().asString(),
+    CLOUDINARY_API_SECRET: (0, env_var_1.get)('CLOUDINARY_API_SECRET').required().asString(),
+    CLOUDINARY_UPLOAD_PRESET: (0, env_var_1.get)('CLOUDINARY_UPLOAD_PRESET').required().asString(),
+    CLOUD_URL: (0, env_var_1.get)('CLOUD_URL').required().asString(),
+    VERSION: (0, env_var_1.get)('VERSION').default('v1_1').asString(),
+    BASE_UPLOAD_PRESET: (0, env_var_1.get)('BASE_UPLOAD_PRESET').required().asString(),
 };

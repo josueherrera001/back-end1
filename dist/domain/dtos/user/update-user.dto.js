@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUserDto = void 0;
+const helpers_1 = require("../../../helpers");
 class UpdateUserDto {
     constructor(Id, FirstName, LastName, Phone) {
         this.Id = Id;
@@ -19,15 +20,15 @@ class UpdateUserDto {
         return returnObj;
     }
     static update(props) {
-        const { id: Id, FirstName, LastName, Address, Phone } = props;
+        const { id: Id, FirstName, LastName, Phone } = props;
         if (!Id)
-            return ['Debe seleccionar el usuario a modificar', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe seleccionar el usuario a modificar'), undefined];
         if (!FirstName)
-            return ['Debe ingresar el nombre de la persona', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la persona'), undefined];
         if (!LastName)
-            return ['Debe ingresar el apellido de la persona', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el apellido de la persona'), undefined];
         if (!Phone)
-            return ['Debe ingresar el telefono'];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el telefono'), undefined];
         return [undefined, new UpdateUserDto(Id, FirstName, LastName, Phone)];
     }
 }

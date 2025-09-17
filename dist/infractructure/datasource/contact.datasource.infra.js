@@ -12,11 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactDataSourceInfra = void 0;
 const data_1 = require("../../data");
 const domain_1 = require("../../domain");
+const helpers_1 = require("../../helpers");
 class ContactDataSourceInfra {
     create(createContactDto) {
         return __awaiter(this, void 0, void 0, function* () {
             const contact = yield data_1.prisma.contacts.create({
-                data: createContactDto
+                data: {
+                    CreatedDate: new Date(),
+                    fullName: createContactDto.fullName,
+                    email: createContactDto.email,
+                    phone: createContactDto.phone,
+                    description: createContactDto.description
+                }
             });
             return domain_1.ContactEntity.fromObject(contact);
         });
@@ -35,7 +42,7 @@ class ContactDataSourceInfra {
                 }
             });
             if (!contact)
-                throw `Id contacto:  ${id} no encontrado`;
+                throw helpers_1.ErrorSpecific.ErrorEmpty(`Id contacto:  ${id} no encontrado`);
             return domain_1.ContactEntity.fromObject(contact);
         });
     }

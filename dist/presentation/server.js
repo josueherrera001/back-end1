@@ -34,14 +34,14 @@ class Server {
             this.app.use(express_1.default.urlencoded({ extended: true })); //* In case you send the data in another way, for example x-www-form-urlencoded
             this.app.use((0, compression_1.default)());
             this.app.use((0, cors_1.default)());
-            /**
-             * Swagger implementation
-             */
-            this.app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.default));
             //** Public folder */
             this.app.use(express_1.default.static(this.publicPath));
             //** Routes */
             this.app.use(this.router);
+            /**
+             * Swagger implementation
+             */
+            this.app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.default));
             this.app.get('*', (req, res) => {
                 const indexPath = path_1.default.join(__dirname + `../../../${this.publicPath}/index.html`);
                 res.sendFile(indexPath);

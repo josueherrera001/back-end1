@@ -19,6 +19,6 @@ export const envs ={
     CLOUDINARY_API_SECRET: get('CLOUDINARY_API_SECRET').required().asString(),
     CLOUDINARY_UPLOAD_PRESET: get('CLOUDINARY_UPLOAD_PRESET').required().asString(),
     CLOUD_URL: get('CLOUD_URL').required().asString(),
-    VERSION: get('VERSION').default('v1_1').asString(),   
+    VERSION: get('VERSION').default('v1').asString(),   
     BASE_UPLOAD_PRESET: get('BASE_UPLOAD_PRESET').required().asString(),
 }

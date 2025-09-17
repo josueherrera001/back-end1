@@ -11,6 +11,7 @@ import { MenuRoutes } from "../menu/routes";
 import { PresentationRoutes } from "../presentation/routes";
 import { ProductRoutes } from "../product/routes";
 import { RoleRoutes } from "../role/routes";
+import { SubMenuRoutes } from "../submenu/routes";
 
 //#region Documentation
     import './contactdoc';
@@ -22,6 +23,7 @@ import { RoleRoutes } from "../role/routes";
     import './presentation-doc';
     import './product-doc';
     import './role-doc';
+    import './submenu-doc';
 //#endregion
 
 
@@ -37,10 +39,11 @@ export class AppRoutes{
         router.use(`/api/${ envs.APP_API_VERSION }/addresses`,AddressRoutes.route);      
         router.use(`/api/${ envs.APP_API_VERSION }/categories`,CategoryRoutes.route);  
         router.use(`/api/${ envs.APP_API_VERSION }/lots`,LotRoutes.route);
-        router.use(`/api/${ envs.APP_API_VERSION }/Menus`,MenuRoutes.route);
+        router.use(`/api/${ envs.APP_API_VERSION }/menus`,MenuRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/presentations`,PresentationRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/products`,ProductRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/roles`,RoleRoutes.route);
+        router.use(`/api/${ envs.APP_API_VERSION }/submenus`,SubMenuRoutes.route);
         
         return router;
     }

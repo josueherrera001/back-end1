@@ -5,6 +5,7 @@ import { prisma } from "../../data";
 import { LoginEntity, LoginUserDto, UpdateAuthDto } from "../../domain";
 import { AuthDatasource } from "../../domain/datasources/auth.DataSource";
 import { CustomError } from "../../helpers/error/custom.error";
+import { ErrorSpecific } from '../../helpers';
 
 export class AuthDataSourceInfra implements AuthDatasource {
     // constructor(
@@ -91,7 +92,7 @@ export class AuthDataSourceInfra implements AuthDatasource {
             }
         });
     
-        if ( !user ) throw `Id usuario:  ${ id } no encontrado`;
+        if ( !user ) throw ErrorSpecific.ErrorEmpty(`Id usuario:  ${ id } no encontrado`);
         return true;
     } 
 }

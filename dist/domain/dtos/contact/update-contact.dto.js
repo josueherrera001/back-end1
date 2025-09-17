@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateContactDto = void 0;
+const helpers_1 = require("../../../helpers");
 class UpdateContactDto {
     constructor(id, fullName, email, phone, description, completedAt) {
         this.id = id;
@@ -26,20 +27,20 @@ class UpdateContactDto {
         const { id, fullName, email, phone, description, completedAt } = props;
         let newCompletedAt = completedAt;
         if (!id || isNaN(Number(id))) {
-            return ['El codigo de identificacion no es valido', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('El codigo de identificacion no es valido'), undefined];
         }
         if (completedAt) {
             newCompletedAt = new Date(completedAt);
             if (newCompletedAt.toString() === 'Invalid Date') {
-                return ['La fecha no es valida. Debe ingresar una fecha valida', undefined];
+                return [helpers_1.ErrorSpecific.ErrorEmpty('La fecha no es valida. Debe ingresar una fecha valida'), undefined];
             }
         }
         if (!fullName)
-            return ['Debe ingresar el nombre completo', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el nombre completo'), undefined];
         if (!email)
-            return ['Debe ingresar el correo electronico', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el correo electronico'), undefined];
         if (!phone)
-            return ['Debe ingresar el numero de telefono', undefined];
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el numero de telefono'), undefined];
         return [undefined, new UpdateContactDto(id, fullName, email, phone, description, newCompletedAt)];
     }
 }

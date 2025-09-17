@@ -15,14 +15,15 @@ const envs_1 = require("../../config/envs");
 const jwt_adapter_1 = require("../../config/jwt.adapter");
 const data_1 = require("../../data");
 const user_entity_1 = require("../../domain/entities/user.entity");
-const custom_error_1 = require("../../domain/error/custom.error");
+const helpers_1 = require("../../helpers");
+const custom_error_1 = require("../../helpers/error/custom.error");
 class UserDataSourceInfra {
     constructor(emailService) {
         this.emailService = emailService;
-        this.sendEmailValidattionLink = (email, fullName) => __awaiter(this, void 0, void 0, function* () {
-            const token = yield jwt_adapter_1.JwtAdapter.generateToken({ email });
+        this.sendEmailValidattionLink = (token, email, fullName) => __awaiter(this, void 0, void 0, function* () {
+            // const token = await JwtAdapter.generateToken({ email });
             if (!token)
-                throw custom_error_1.CustomError.internalServer('Error getting token');
+                throw custom_error_1.CustomError.internalServer("Error getting token");
             const link = `${envs_1.envs.WEBSERVICE_URL}/${envs_1.envs.APP_API_VERSION}/auth/validate-email/${token}`;
             const html = `
            <div class="container">
@@ -38,12 +39,12 @@ class UserDataSourceInfra {
         `;
             const option = {
                 to: email,
-                subject: 'Validate your email',
-                htmlBody: html
+                subject: "Validate your email",
+                htmlBody: html,
             };
             const isSent = yield this.emailService.sendEmail(option);
             if (!isSent)
-                throw custom_error_1.CustomError.internalServer('Error sending email');
+                throw custom_error_1.CustomError.internalServer("Error sending email");
             return true;
         });
     }
@@ -54,7 +55,7 @@ class UserDataSourceInfra {
                 select: { Email: true },
             });
             if (existUser)
-                throw custom_error_1.CustomError.badRequest('Ya existio ese email');
+                throw custom_error_1.CustomError.badRequest("Ya existio ese email");
             let pass = bcrypt_adapter_1.bcryptAdapter.has(auth.UserPass);
             const User = yield data_1.prisma.users.create({
                 data: {
@@ -71,7 +72,7 @@ class UserDataSourceInfra {
                                 RoleId: auth.RoleId,
                                 UserPass: pass,
                                 CreatedDate: new Date(Date.now()),
-                                EmailValidated: false
+                                EmailValidated: false,
                             },
                         ],
                     },
@@ -80,45 +81,48 @@ class UserDataSourceInfra {
                             {
                                 Between: createuserDto.Address.BetweenStreet,
                                 CreatedDate: new Date(Date.now()),
-                                LocationId: createuserDto.Address.LocationId,
+                                Country: createuserDto.Address.Country,
+                                Province: createuserDto.Address.Province,
+                                Location: createuserDto.Address.Location,
                                 Number: createuserDto.Address.StreetNumber,
-                                Street: createuserDto.Address.Street
-                            }
-                        ]
-                    }
+                                Street: createuserDto.Address.Street,
+                            },
+                        ],
+                    },
                 },
             });
-            yield this.sendEmailValidattionLink(createuserDto.Email, createuserDto.FirstName + " " + createuserDto.LastName);
             //* JWT <----- Para mantener la autencation
             const token = yield jwt_adapter_1.JwtAdapter.generateToken({
-                Id: User.Id,
+                UserId: User.Id,
                 RoleId: auth.RoleId,
                 UserName: auth.UserName,
+                Email: User.Email,
             });
+            yield this.sendEmailValidattionLink(token, User.Email, User.FirstName + " " + User.LastName);
             return {
                 UserName: auth.UserName,
-                token: token
+                token: token,
             };
         });
     }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             const users = yield data_1.prisma.users.findMany();
-            return users.map(user => user_entity_1.UserEntity.fromObject(user));
+            return users.map((user) => user_entity_1.UserEntity.fromObject(user));
         });
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield data_1.prisma.users.findFirst({
                 include: {
-                    Accounts: true
+                    Accounts: true,
                 },
                 where: {
-                    Id: id
-                }
+                    Id: id,
+                },
             });
             if (!user)
-                throw `Id usuario:  ${id} no encontrado`;
+                throw helpers_1.ErrorSpecific.ErrorEmpty(`Id usuario:  ${id} no encontrado`);
             return user_entity_1.UserEntity.fromObject(user);
         });
     }
@@ -127,9 +131,9 @@ class UserDataSourceInfra {
             yield this.findById(updateUserDto.Id);
             const updatedContact = yield data_1.prisma.users.update({
                 where: {
-                    Id: updateUserDto.Id
+                    Id: updateUserDto.Id,
                 },
-                data: updateUserDto.Values
+                data: updateUserDto.Values,
             });
             return user_entity_1.UserEntity.fromObject(updatedContact);
         });
@@ -138,10 +142,10 @@ class UserDataSourceInfra {
         return __awaiter(this, void 0, void 0, function* () {
             let user = yield this.findById(id);
             if (!user)
-                throw custom_error_1.CustomError.badRequest('No existe ese usuario');
+                throw custom_error_1.CustomError.badRequest("No existe ese usuario");
             const deletecontact = yield data_1.prisma.users.update({
                 where: {
-                    Id: id
+                    Id: id,
                 },
                 data: {
                     State: 2,
@@ -149,19 +153,19 @@ class UserDataSourceInfra {
                     Accounts: {
                         updateMany: {
                             where: {
-                                UserId: id
+                                UserId: id,
                             },
                             data: {
                                 State: 2,
                                 FinalDate: new Date(Date.now()),
-                                EmailValidated: false
-                            }
+                                EmailValidated: false,
+                            },
                         },
-                    }
+                    },
                 },
                 include: {
                     Accounts: true,
-                }
+                },
             });
             return user_entity_1.UserEntity.fromObject(deletecontact);
         });

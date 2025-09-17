@@ -7,6 +7,7 @@ const user_repository_infra_1 = require("../../infractructure/repositories/user.
 const user_datasource_infra_1 = require("../../infractructure/datasource/user.datasource.infra");
 const email_service_1 = require("../../config/email.service");
 const envs_1 = require("../../config/envs");
+const authtoken_1 = require("../../Middlewares/authtoken");
 class UserRoutes {
     static get route() {
         const router = (0, express_1.Router)();
@@ -14,10 +15,10 @@ class UserRoutes {
         const datasource = new user_datasource_infra_1.UserDataSourceInfra(emailService);
         const todoRepository = new user_repository_infra_1.UserRepositoryInfra(datasource);
         const Ctrl = new userController_1.UserController(todoRepository);
-        // router.use(Validator.validateToken);
+        router.post('/', Ctrl.post);
+        router.use(authtoken_1.AuthToken);
         router.get('/', Ctrl.getUsers);
         router.get('/:id', Ctrl.get);
-        router.post('/', Ctrl.post);
         router.put('/:id', Ctrl.put);
         router.delete('/:id', Ctrl.delete);
         return router;

@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { SubCategoryDatasource, CreateSubCategoryDto, SubCategoryEntity, UpdateSubCategoryDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class SubCategoryDataSourceInfra implements SubCategoryDatasource {
     async create(createDto: CreateSubCategoryDto): Promise<SubCategoryEntity> {
@@ -27,7 +28,7 @@ export class SubCategoryDataSourceInfra implements SubCategoryDatasource {
             }
         });
 
-        if ( !entity ) throw `Id subcategoria:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id subcategoria:  ${ id } no encontrado`);
         return SubCategoryEntity.fromObject(entity);
     }
     

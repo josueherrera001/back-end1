@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { CreatePresentationDto, PresentationDatasource, PresentationEntity, UpdatePresentationDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class PresentationDataSourceInfra implements PresentationDatasource {
     async create(createDto: CreatePresentationDto): Promise<PresentationEntity> {
@@ -26,7 +27,7 @@ export class PresentationDataSourceInfra implements PresentationDatasource {
             }
         });
 
-        if ( !entity ) throw `Id de la presentacion:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id de la presentacion:  ${ id } no encontrado`);
         return PresentationEntity.fromObject(entity);
     }
     

@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { SupplierDatasource, CreateSupplierDto, SupplierEntity, UpdateSupplierDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class SupplierDataSourceInfra implements SupplierDatasource {
     async create(createDto: CreateSupplierDto): Promise<SupplierEntity> {
@@ -29,7 +30,7 @@ export class SupplierDataSourceInfra implements SupplierDatasource {
             }
         });
 
-        if ( !entity ) throw `Id proveedor:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id proveedor:  ${ id } no encontrado`);
         return SupplierEntity.fromObject(entity);
     }
     

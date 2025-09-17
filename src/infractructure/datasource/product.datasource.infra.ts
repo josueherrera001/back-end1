@@ -1,5 +1,6 @@
 import { prisma } from "../../data";
 import { CreateProductDto, ProductDatasource, ProductEntity, UpdateProductDto } from "../../domain";
+import { ErrorSpecific } from "../../helpers";
 
 export class ProductDataSourceInfra implements ProductDatasource {
     async create(createDto: CreateProductDto): Promise<ProductEntity> {
@@ -30,7 +31,7 @@ export class ProductDataSourceInfra implements ProductDatasource {
             }
         });
 
-        if ( !entity ) throw `Id del producto:  ${ id } no encontrado`;
+        if ( !entity ) throw ErrorSpecific.ErrorEmpty(`Id del producto:  ${ id } no encontrado`);
         return ProductEntity.fromObject(entity);
     }
     

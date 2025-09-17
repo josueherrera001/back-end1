@@ -25,7 +25,7 @@ export class UpdateMenuDto{
     static update(props:{[key:string]:any}):[JsonObject?,UpdateMenuDto?]{
         const{Id,Name, Url, HasSubMenu, Description } = props;
         
-        if ( !Id )   return [ErrorSpecific.ErrorEmpty('Debe seleccionar el rol a modificar'),undefined];
+        if ( !Id )   return [ErrorSpecific.ErrorEmpty('Debe seleccionar el menu a modificar'),undefined];
          if ( !Name ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre del menu'),undefined];
         if ( !HasSubMenu && !Url ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el enlace del menu'),undefined];      
 

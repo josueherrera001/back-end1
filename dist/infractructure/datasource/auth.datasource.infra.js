@@ -13,7 +13,8 @@ exports.AuthDataSourceInfra = void 0;
 const bcrypt_adapter_1 = require("../../config/bcrypt.adapter");
 const jwt_adapter_1 = require("../../config/jwt.adapter");
 const data_1 = require("../../data");
-const custom_error_1 = require("../../domain/error/custom.error");
+const custom_error_1 = require("../../helpers/error/custom.error");
+const helpers_1 = require("../../helpers");
 class AuthDataSourceInfra {
     // constructor(
     //     // private readonly emailService: EmailService
@@ -22,7 +23,8 @@ class AuthDataSourceInfra {
         return __awaiter(this, void 0, void 0, function* () {
             const existUser = yield data_1.prisma.accounts.findFirst({
                 include: {
-                    Role: true
+                    Role: true,
+                    User: true
                 },
                 where: {
                     UserName: dto.UserName
@@ -36,10 +38,10 @@ class AuthDataSourceInfra {
             if (!isMatching)
                 throw custom_error_1.CustomError.badRequest('Usuario y/o contraseña incorrecto');
             let createtoken = yield jwt_adapter_1.JwtAdapter.generateToken({
-                Id: existUser.Id,
-                Email: existUser.UserName,
                 UserId: existUser.UserId,
-                Role: JSON.stringify(existUser.RoleId)
+                RoleId: existUser.RoleId,
+                UserName: existUser.UserName,
+                Email: existUser.User.Email,
             });
             if (!createtoken)
                 throw custom_error_1.CustomError.internalServer('Error al crear el token');
@@ -54,17 +56,23 @@ class AuthDataSourceInfra {
             const payload = yield jwt_adapter_1.JwtAdapter.validateToken(token);
             if (!payload)
                 throw custom_error_1.CustomError.unAuthorized('Token invalido');
-            const { email } = payload;
-            if (!email)
+            const { Email } = payload;
+            if (!Email)
                 throw custom_error_1.CustomError.internalServer('Email not in token');
-            const user = yield data_1.prisma.accounts.findFirst({ where: {
-                    UserName: email
-                } });
+            const user = yield data_1.prisma.users.findFirst({
+                include: {
+                    Accounts: true
+                },
+                where: {
+                    Email: Email
+                }
+            });
             if (!user)
                 throw custom_error_1.CustomError.internalServer('Email not exist');
+            const { Accounts } = user;
             yield data_1.prisma.accounts.update({
                 where: {
-                    Id: user.Id
+                    Id: Accounts[0].Id
                 },
                 data: {
                     EmailValidated: true
@@ -95,7 +103,7 @@ class AuthDataSourceInfra {
                 }
             });
             if (!user)
-                throw `Id usuario:  ${id} no encontrado`;
+                throw helpers_1.ErrorSpecific.ErrorEmpty(`Id usuario:  ${id} no encontrado`);
             return true;
         });
     }
