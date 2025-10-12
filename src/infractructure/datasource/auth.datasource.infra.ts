@@ -33,6 +33,7 @@ export class AuthDataSourceInfra implements AuthDatasource {
             RoleId: existUser.RoleId,
             UserName:existUser.UserName,
             Email: existUser.User.Email,
+            Role: existUser.Role.Name
         });
 
         if ( !createtoken ) throw CustomError.internalServer('Error al crear el token');

@@ -54,6 +54,8 @@ class UserDataSourceInfra {
                 where: { Email: createuserDto.Email },
                 select: { Email: true },
             });
+            let role = yield data_1.prisma.roles.findFirst({ where: { Name: "Empleado" } });
+            let roleId = auth.RoleId == undefined ? auth.RoleId : role === null || role === void 0 ? void 0 : role.Id;
             if (existUser)
                 throw custom_error_1.CustomError.badRequest("Ya existio ese email");
             let pass = bcrypt_adapter_1.bcryptAdapter.has(auth.UserPass);
@@ -69,7 +71,8 @@ class UserDataSourceInfra {
                         create: [
                             {
                                 UserName: auth.UserName,
-                                RoleId: auth.RoleId,
+                                RoleId: roleId,
+                                State: 1,
                                 UserPass: pass,
                                 CreatedDate: new Date(Date.now()),
                                 EmailValidated: false,
@@ -94,9 +97,10 @@ class UserDataSourceInfra {
             //* JWT <----- Para mantener la autencation
             const token = yield jwt_adapter_1.JwtAdapter.generateToken({
                 UserId: User.Id,
-                RoleId: auth.RoleId,
+                RoleId: roleId,
                 UserName: auth.UserName,
                 Email: User.Email,
+                Role: role === null || role === void 0 ? void 0 : role.Name
             });
             yield this.sendEmailValidattionLink(token, User.Email, User.FirstName + " " + User.LastName);
             return {

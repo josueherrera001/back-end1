@@ -18,6 +18,6 @@ exports.envs = {
     CLOUDINARY_API_SECRET: (0, env_var_1.get)('CLOUDINARY_API_SECRET').required().asString(),
     CLOUDINARY_UPLOAD_PRESET: (0, env_var_1.get)('CLOUDINARY_UPLOAD_PRESET').required().asString(),
     CLOUD_URL: (0, env_var_1.get)('CLOUD_URL').required().asString(),
-    VERSION: (0, env_var_1.get)('VERSION').default('v1_1').asString(),
+    VERSION: (0, env_var_1.get)('VERSION').default('v1').asString(),
     BASE_UPLOAD_PRESET: (0, env_var_1.get)('BASE_UPLOAD_PRESET').required().asString(),
 };

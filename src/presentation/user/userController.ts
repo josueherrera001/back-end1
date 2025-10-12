@@ -27,7 +27,8 @@ export class UserController{
     }
 
     public post = (req:Request, res:Response) =>{
-        const [error, createuserDto] = CreateUserDto.create(req.body);
+        
+    const [error, createuserDto] = CreateUserDto.create(req.body);
         if ( error ) return res.status(400).json(error);
 
        new CreateUser( this.Repository )

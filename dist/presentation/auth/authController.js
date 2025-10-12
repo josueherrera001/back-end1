@@ -10,7 +10,7 @@ class AuthController {
     constructor(Repository) {
         this.Repository = Repository;
         this.login = (req, res) => {
-            const { UserName, Password } = req.body;
+            const { UserName, UserPass: Password } = req.body;
             new login_user_1.Login(this.Repository)
                 .execute({ UserName, Password })
                 .then(todos => res.json(todos))

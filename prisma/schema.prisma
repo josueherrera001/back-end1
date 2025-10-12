@@ -41,9 +41,6 @@ model Addresses {
   State       Int       @default(1)
 
   User        Users      @relation(fields: [UserId], references: [Id])
-  // Location   Locations @relation(fields: [LocationId], references: [Id])
-  Locations   Locations? @relation(fields: [locationsId], references: [Id])
-  locationsId String?
 }
 
 model Accounts {
@@ -74,19 +71,6 @@ model Roles {
   Accounts Accounts[]
 }
 
-model Locations {
-  Id          String    @id @default(uuid())
-  ProvinceId  String    @db.VarChar(100)
-  Name        String    @db.VarChar(100)
-  Description String?   @db.VarChar(100)
-  CreatedDate DateTime  @db.Timestamp()
-  FinalDate   DateTime?
-  State       Int       @default(1)
-
-  Province Provinces   @relation(fields: [ProvinceId], references: [Id])
-  Address  Addresses[]
-}
-
 model Provinces {
   Id          String    @id @default(uuid())
   CountryId   String    @db.VarChar(100)
@@ -95,20 +79,6 @@ model Provinces {
   CreatedDate DateTime  @db.Timestamp()
   FinalDate   DateTime?
   State       Int       @default(1)
-
-  Country  Countries   @relation(fields: [CountryId], references: [Id])
-  Location Locations[]
-}
-
-model Countries {
-  Id          String    @id @default(uuid())
-  Name        String    @db.VarChar(100)
-  Description String?   @db.VarChar(100)
-  CreatedDate DateTime  @db.Timestamp()
-  FinalDate   DateTime?
-  State       Int       @default(1)
-
-  Province Provinces[]
 }
 
 model PaymentTypes {
