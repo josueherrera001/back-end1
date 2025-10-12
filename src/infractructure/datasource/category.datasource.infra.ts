@@ -1,9 +1,16 @@
 import { prisma } from "../../data";
 import { CategoryDatasource, CreateCategoryDto, CategoryEntity, UpdateCategoryDto } from "../../domain";
-import { ErrorSpecific } from "../../helpers";
+import { CustomError, ErrorSpecific } from "../../helpers";
 
 export class CategoryDataSourceInfra implements CategoryDatasource {
     async create(createDto: CreateCategoryDto): Promise<CategoryEntity> {
+        const isexist = await prisma.categories.findFirst({
+             where: {
+                Name:createDto.Name
+            }
+        });
+        console.log("Category exist ", isexist);
+         if ( isexist ) throw CustomError.badRequest('Ya existio una categoria con ese nombre');
         const entity = await prisma.categories.create({
             data:{
                 Description: createDto.Description ?? null,
