@@ -32,20 +32,23 @@ export class CreateUserDto{
 
     static create(props:{[key:string]:any}):[JsonObject?,CreateUserDto?]{
         
-        const{FirstName, LastName, Email, Phone,CreatedDate,auth,Address } = props;
+        const{FirstName, LastName, Email, Phone,CreatedDate,auth,address } = props;    
 
         if ( !FirstName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la persona'),undefined];
         if ( !LastName ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el apellido de la persona'),undefined];
-        if ( !Address ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la direccion de la persona'), undefined];
+        // if ( !Address ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la direccion de la persona'), undefined];
         if ( !Email ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el correo de la persona'), undefined];
         if ( !regularExps.email.test(Email) ) return [ErrorSpecific.ErrorEmpty('El correo no es valido'), undefined];
         if ( !Phone ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el telefono')];
 
         const [error, CreateDto] = RegisterAuthDto.create(auth);
         if ( error ) return [error,undefined];
-        const [errorAddress, AddressDto] = CreateAddressDto.create(Address);
-        if ( errorAddress ) return [error,undefined];
+        if (!CreateDto) return [ErrorSpecific.ErrorEmpty('Datos de autenticación inválidos'), undefined];
 
-        return [undefined, new CreateUserDto(FirstName, LastName, Email, Phone,CreatedDate,auth, Address )]
+        const [errorAddress, AddressDto] = CreateAddressDto.create(address);
+        if ( errorAddress ) return [errorAddress, undefined];
+        if ( !AddressDto ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la direccion de la persona'), undefined];
+
+        return [undefined, new CreateUserDto(FirstName, LastName, Email, Phone,CreatedDate,CreateDto, AddressDto )]
     }
 }

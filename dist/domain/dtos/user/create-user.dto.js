@@ -34,13 +34,12 @@ class CreateUserDto {
         return returnObj;
     }
     static create(props) {
-        const { FirstName, LastName, Email, Phone, CreatedDate, auth, Address } = props;
+        const { FirstName, LastName, Email, Phone, CreatedDate, auth, address } = props;
         if (!FirstName)
             return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el nombre de la persona'), undefined];
         if (!LastName)
             return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el apellido de la persona'), undefined];
-        if (!Address)
-            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar la direccion de la persona'), undefined];
+        // if ( !Address ) return [ErrorSpecific.ErrorEmpty('Debe ingresar la direccion de la persona'), undefined];
         if (!Email)
             return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar el correo de la persona'), undefined];
         if (!regular_exps_1.regularExps.email.test(Email))
@@ -50,10 +49,14 @@ class CreateUserDto {
         const [error, CreateDto] = register_auth_dto_1.RegisterAuthDto.create(auth);
         if (error)
             return [error, undefined];
-        const [errorAddress, AddressDto] = create_address_dto_1.CreateAddressDto.create(Address);
+        if (!CreateDto)
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Datos de autenticación inválidos'), undefined];
+        const [errorAddress, AddressDto] = create_address_dto_1.CreateAddressDto.create(address);
         if (errorAddress)
-            return [error, undefined];
-        return [undefined, new CreateUserDto(FirstName, LastName, Email, Phone, CreatedDate, auth, Address)];
+            return [errorAddress, undefined];
+        if (!AddressDto)
+            return [helpers_1.ErrorSpecific.ErrorEmpty('Debe ingresar la direccion de la persona'), undefined];
+        return [undefined, new CreateUserDto(FirstName, LastName, Email, Phone, CreatedDate, CreateDto, AddressDto)];
     }
 }
 exports.CreateUserDto = CreateUserDto;

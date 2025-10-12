@@ -2,12 +2,13 @@ export class CategoryEntity{
     constructor(
         public readonly Id: string,
         public readonly Name: string,
-        public readonly Description: string
+        public readonly Description: string,
+        public readonly CreatedDate: Date
     ){}
 
     public static fromObject (object:{[key: string]:any}){
-        const{Id,Name, Description } = object;    
+        const{Id,Name, Description,CreatedDate } = object;    
 
-        return new CategoryEntity(Id, Name, Description );
+        return new CategoryEntity(Id, Name, Description,CreatedDate );
     }
 }

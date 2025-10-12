@@ -13,7 +13,7 @@ export class AuthController{
     ){}
 
     public login = (req:Request, res:Response) =>{
-        const{ UserName, Password} = req.body;
+        const{ UserName, UserPass:Password} = req.body;
         new Login( this.Repository )
         .execute({ UserName, Password})
         .then( todos => res.json( todos ))

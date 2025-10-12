@@ -27,8 +27,8 @@ export class RegisterAuthDto{
         if ( !UserPass )  return [ErrorSpecific.ErrorEmpty('Debe ingresar la contraseña del usuario'),undefined];
         if ( UserPass < 8 && UserPass > 20 )  return [ErrorSpecific.ErrorEmpty('La contraseña debe contener como minimo 8 y maximo 20 caracteres'),undefined];
         // if ( !UserId )   return ['Debe ingresar el usuario',undefined]
-        if ( !RoleId )  return [ErrorSpecific.ErrorEmpty('Debe ingresar el tipo de aceso del usuario'),undefined];
-
+        //if ( !RoleId )  return [ErrorSpecific.ErrorEmpty('Debe ingresar el tipo de aceso del usuario'),undefined];
+        
         return [undefined, new RegisterAuthDto(UserName, UserPass,RoleId,UserId)]
     }
 }

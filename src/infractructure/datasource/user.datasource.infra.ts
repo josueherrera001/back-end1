@@ -24,6 +24,9 @@ export class UserDataSourceInfra implements UserDatasource {
       where: { Email: createuserDto.Email },
       select: { Email: true },
     });
+    let role = await prisma.roles.findFirst({where: { Name: "Empleado" }});
+    let roleId = auth.RoleId == undefined ? auth.RoleId : role?.Id;
+
     if (existUser) throw CustomError.badRequest("Ya existio ese email");
 
     let pass = bcryptAdapter.has(auth.UserPass);
@@ -39,7 +42,8 @@ export class UserDataSourceInfra implements UserDatasource {
           create: [
             {
               UserName: auth.UserName,
-              RoleId: auth.RoleId,
+              RoleId: roleId!,
+              State: 1,
               UserPass: pass,
               CreatedDate: new Date(Date.now()),
               EmailValidated: false,
@@ -66,9 +70,10 @@ export class UserDataSourceInfra implements UserDatasource {
 
     const token: any = await JwtAdapter.generateToken({
       UserId: User.Id,
-      RoleId: auth.RoleId,
+      RoleId: roleId,
       UserName: auth.UserName,
       Email: User.Email,
+      Role: role?.Name
     });
 
     await this.sendEmailValidattionLink(
