@@ -5,7 +5,7 @@
 
     async function main() {
       // Create user records
-    /*await prisma.menues.createMany({
+    await prisma.menues.createMany({
         data: 
         [
             {
@@ -73,7 +73,7 @@
                 
             },
             
-        });*/
+        });
      
           await prisma.menues.create({
             data: {
@@ -122,7 +122,7 @@
             
         });
 
-     /*await prisma.roles.createMany({
+     await prisma.roles.createMany({
         data: [
             {
                 Name: "Admin",
@@ -255,7 +255,7 @@
                 State:2
             }
         ],
-    });*/
+    });
 
     }
 
