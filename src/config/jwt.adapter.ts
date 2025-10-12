@@ -3,7 +3,7 @@ import { envs } from './envs';
 
 export class JwtAdapter{
     static async generateToken(payload: any,/*duration:any = '2h'*/ duration:any = '100d'){
-        console.log(payload);
+       
         return new Promise<string>( (resolve) =>{
             jwt.sign(payload, envs.JWT_SEED,{
                 expiresIn: duration
