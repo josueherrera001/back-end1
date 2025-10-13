@@ -1,4 +1,3 @@
-// import { UserDoc } from './userdoc';
 import { Router } from "express";
 import { ContactRoutes } from "../contact/routes";
 import { envs } from "../../config/envs";
@@ -12,6 +11,7 @@ import { PresentationRoutes } from "../presentation/routes";
 import { ProductRoutes } from "../product/routes";
 import { RoleRoutes } from "../role/routes";
 import { SubMenuRoutes } from "../submenu/routes";
+import { SubCategoryRoutes } from '../subcategory/routes';
 
 //#region Documentation
     import './contactdoc';
@@ -43,6 +43,7 @@ export class AppRoutes{
         router.use(`/api/${ envs.APP_API_VERSION }/presentations`,PresentationRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/products`,ProductRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/roles`,RoleRoutes.route);
+        router.use(`/api/${ envs.APP_API_VERSION }/subcategories`,SubCategoryRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/submenus`,SubMenuRoutes.route);
         
         return router;

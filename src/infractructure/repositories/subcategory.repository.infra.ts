@@ -8,8 +8,8 @@ import { CreateSubCategoryDto, SubCategoryDatasource, SubCategoryEntity, SubCate
      create(createTodoDto: CreateSubCategoryDto): Promise<SubCategoryEntity> {
         return this.datasource.create( createTodoDto );
      }
-     getAll(): Promise<SubCategoryEntity[]> {
-        return this.datasource.getAll( );
+     getAll(CategoryId: String): Promise<SubCategoryEntity[]> {
+        return this.datasource.getAll( CategoryId );
      }
      findById(id: string): Promise<SubCategoryEntity> {
         return this.datasource.findById( id );
