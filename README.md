@@ -34,10 +34,10 @@
 
     ## :Cloudinary
         /* Coudinary*/
-        CLOUD_NAME=El nombre de asset
-        CLOUDINARY_API_KEY=Api key  
-        CLOUDINARY_API_SECRET=api secrete
-        CLOUD_URL=https://api.cloudinary.com/
+        CLOUD_NAME=Root
+        CLOUDINARY_API_KEY=936141783849336 
+        CLOUDINARY_API_SECRET=usaYNQ7K62xe5xfrHGYvHV8-wuM
+        CLOUD_URL=CLOUDINARY_URL=cloudinary://936141783849336:usaYNQ7K62xe5xfrHGYvHV8-wuM@dvlw1tyyc
         VERSION=version
         CLOUDINARY_UPLOAD_PRESET=preset
         BASE_UPLOAD_PRESET=carpeta

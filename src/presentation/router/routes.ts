@@ -13,6 +13,7 @@ import { RoleRoutes } from "../role/routes";
 import { SubMenuRoutes } from "../submenu/routes";
 import { SubCategoryRoutes } from '../subcategory/routes';
 
+import { SupplierRoutes } from "../supplier/routes";  
 //#region Documentation
     import './contactdoc';
     import './auth-doc';
@@ -45,7 +46,7 @@ export class AppRoutes{
         router.use(`/api/${ envs.APP_API_VERSION }/roles`,RoleRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/subcategories`,SubCategoryRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/submenus`,SubMenuRoutes.route);
-        
+        router.use(`/api/${ envs.APP_API_VERSION }/suppliers`, SupplierRoutes.route);
         return router;
     }
 }
