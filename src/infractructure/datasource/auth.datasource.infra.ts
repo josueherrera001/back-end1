@@ -22,6 +22,7 @@ export class AuthDataSourceInfra implements AuthDatasource {
         }
     });
 
+
         if ( !existUser ) throw CustomError.badRequest('No existe ese usuario');
         if ( !existUser.EmailValidated ) throw CustomError.badRequest('No esta activada la cuenta');
         
