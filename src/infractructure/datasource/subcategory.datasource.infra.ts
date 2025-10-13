@@ -15,8 +15,12 @@ export class SubCategoryDataSourceInfra implements SubCategoryDatasource {
         return SubCategoryEntity.fromObject( entity );
     }
 
-    async getAll(): Promise<SubCategoryEntity[]> {
-        const entities = await prisma.subCategories.findMany();
+    async getAll(CategoryId: string): Promise<SubCategoryEntity[]> {
+        const entities = await prisma.subCategories.findMany({
+            where:{
+                CategoryId: CategoryId
+            }
+        });
 
         return entities.map(entity => SubCategoryEntity.fromObject(entity));
     }
