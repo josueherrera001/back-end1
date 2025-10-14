@@ -57,7 +57,7 @@ export class SubCategoryDataSourceInfra implements SubCategoryDatasource {
     async deleteById(id: string): Promise<SubCategoryEntity> {
         await this.findById( id );  
 
-        const deleteentity = await prisma.categories                                                                                                .delete({
+        const deleteentity = await prisma.subCategories                                                                                                .delete({
             where:{
                 Id:id
             }

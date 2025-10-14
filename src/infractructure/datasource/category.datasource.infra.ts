@@ -9,7 +9,6 @@ export class CategoryDataSourceInfra implements CategoryDatasource {
                 Name:createDto.Name
             }
         });
-        console.log("Category exist ", isexist);
          if ( isexist ) throw CustomError.badRequest('Ya existio una categoria con ese nombre');
         const entity = await prisma.categories.create({
             data:{
