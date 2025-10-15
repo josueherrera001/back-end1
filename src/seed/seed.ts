@@ -114,6 +114,12 @@
                             Name: "ABM Presentaciones",
                             Url: "presentationactions",
                             CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionada con proveedores",
+                            Name: "ABM Provedores",
+                            Url: "suplierActions",
+                            CreatedDate: new Date(),
                         }
                     ]
                 },
