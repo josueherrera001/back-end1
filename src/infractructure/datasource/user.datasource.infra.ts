@@ -88,11 +88,19 @@ export class UserDataSourceInfra implements UserDatasource {
     };
   }
 
-  async getAll(): Promise<UserEntity[]> {
-    const users = await prisma.users.findMany();
-    return users.map((user) => UserEntity.fromObject(user));
-  }
-
+async getAll(): Promise<UserEntity[]> {  
+  const users = await prisma.users.findMany({  
+    include: {  
+      Accounts: {  
+        include: {  
+          Role: true  
+        }  
+      },  
+      Addresses: true  
+    }  
+  });  
+  return users.map((user) => UserEntity.fromObject(user));  
+}
   async findById(id: string): Promise<UserEntity> {
     const user = await prisma.users.findFirst({
       include: {
