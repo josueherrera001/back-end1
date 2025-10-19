@@ -115,18 +115,21 @@ async getAll(): Promise<UserEntity[]> {
     return UserEntity.fromObject(user);
   }
 
-  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    await this.findById(updateUserDto.Id);
-
-    const updatedContact = await prisma.users.update({
-      where: {
-        Id: updateUserDto.Id,
-      },
-      data: updateUserDto!.Values,
-    });
-
-    return UserEntity.fromObject(updatedContact);
-  }
+  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {  
+  await this.findById(updateUserDto.Id);  
+  const updateData: any = { ...updateUserDto.Values };  
+    
+  if (updateData.Accounts?.update?.data?.UserPass === '') {  
+    delete updateData.Accounts.update.data.UserPass;  
+  }  
+  
+  const updatedContact = await prisma.users.update({  
+    where: { Id: updateUserDto.Id },  
+    data: updateData,  
+  });  
+  
+  return UserEntity.fromObject(updatedContact);  
+}
 
   async deleteById(id: string): Promise<UserEntity> {
     let user = await this.findById(id);
