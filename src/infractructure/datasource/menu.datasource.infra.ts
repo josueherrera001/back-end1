@@ -9,7 +9,6 @@ export class MenuDataSourceInfra implements MenuDatasource {
                     Position: 'desc', // O el campo de fecha/hora
                 },
             });
-       try {
          const entity = await prisma.menues.create({
             data:{
                 Description: createDto.Description,
@@ -21,9 +20,6 @@ export class MenuDataSourceInfra implements MenuDatasource {
             }
         });
         return MenuEntity.fromObject( entity );
-       } catch (error: any) {
-        throw ErrorSpecific.ErrorDB(error);
-       }
     }
 
     async getAll(): Promise<MenuEntity[]> {
@@ -56,8 +52,6 @@ export class MenuDataSourceInfra implements MenuDatasource {
     
     async updateById(updateDto: UpdateMenuDto): Promise<MenuEntity> {
         await this.findById( updateDto.Id );   
-        try {               
-
             const updatedentity = await prisma.menues.update({
                 where:{
                     Id:updateDto.Id
@@ -72,15 +66,10 @@ export class MenuDataSourceInfra implements MenuDatasource {
             });
 
             return MenuEntity.fromObject( updatedentity );
-        } catch (error) {
-            throw ErrorSpecific.ErrorDB(error);
-        }
     }
 
     async deleteById(id: string): Promise<MenuEntity> {
          await this.findById( id ); 
-       try { 
-
         const deleteentity = await prisma.menues.delete({
             where:{
                 Id:id
@@ -88,9 +77,6 @@ export class MenuDataSourceInfra implements MenuDatasource {
         });
 
         return MenuEntity.fromObject( deleteentity );
-       } catch (error) {
-        throw ErrorSpecific.ErrorDB(error);
-       }
     }
     
 }

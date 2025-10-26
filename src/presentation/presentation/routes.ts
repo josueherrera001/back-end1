@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { PresentationController } from "./presentationController";
 import { AuthToken } from "../../Middlewares/authtoken";
-import { MenuDataSourceInfra } from "../../infractructure/datasource/menu.datasource.infra";
-import { MenuRepositoryInfra } from "../../infractructure/repositories/menu.repository.infra";
 import { PresentationDataSourceInfra } from "../../infractructure/datasource/presentation.datasource.infra";
 import { PresentationRepositoryInfra } from "../../infractructure/repositories/presentation.repository.infra";
 

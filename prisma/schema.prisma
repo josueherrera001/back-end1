@@ -62,7 +62,7 @@ model Accounts {
 
 model Roles {
   Id          String    @id @default(uuid())
-  Name        String    @db.VarChar(100)
+  Name        String    @unique @db.VarChar(100)
   Description String?   @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate   DateTime?
@@ -83,7 +83,7 @@ model Provinces {
 
 model PaymentTypes {
   Id          String    @id @default(uuid())
-  Name        String    @db.VarChar(100)
+  Name        String    @unique @db.VarChar(100)
   Description String?   @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate   DateTime?
@@ -144,7 +144,7 @@ model AccountMenus {
 
 model Categories {
   Id          String    @id @default(uuid())
-  Name        String    @db.VarChar(100)
+  Name        String    @unique @db.VarChar(100)
   Description String?   @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate   DateTime?
@@ -169,8 +169,8 @@ model SubCategories {
 
 model Presentations {
   Id          String    @id @default(uuid())
-  Name        String    @db.VarChar(100)
-  Description String?   @db.VarChar(100)
+  Name        String    @unique @db.VarChar(100)
+  Description String?   @db.VarChar(500)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate   DateTime?
   State       Int       @default(1)
@@ -196,9 +196,10 @@ model Products {
   Id             String    @id @default(uuid())
   SubCategoryId  String    @db.VarChar(100)
   PresentationId String    @db.VarChar(100)
-  SupplierId     String    @unique @db.VarChar(50)
-  Name           String    @db.VarChar(20)
+  SupplierId     String    @db.VarChar(100)
+  Name           String    @unique @db.VarChar(50)
   ImageUrl       String?   @db.VarChar(200)
+  PublicIdUrl    String?   @db.VarChar(200)
   Description    String?   @db.VarChar(120)
   CreatedDate    DateTime  @db.Timestamp()
   FinalDate      DateTime?
@@ -208,7 +209,7 @@ model Products {
   Presentation Presentations @relation(fields: [PresentationId], references: [Id])
   Supplier     Suppliers     @relation(fields: [SupplierId], references: [Id])
 
-  Lot Lots[]
+  lots Lots[]
 }
 
 model Lots {

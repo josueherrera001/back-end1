@@ -33,10 +33,10 @@ export class CreateLotDto{
     static create(props:{[key:string]:any}):[JsonObject?,CreateLotDto?]{
         const{ProductId, LotCode, ProductCode,stock,PurchasePrice, SalePrice, ExpiredDate, HasExpiredDate, Description } = props;
 
-        if ( !ProductId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar el producto'),undefined]; 
+        // if ( !ProductId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar el producto'),undefined]; 
         if ( !LotCode ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el numero de lote del producto'),undefined]; 
         if ( !ProductCode ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el codigo del producto'),undefined];
-        if ( !HasExpiredDate &&  !ExpiredDate) return [ErrorSpecific.ErrorEmpty('Debe ingresar la fecha de vencimiento del producto'),undefined];   
+        // if ( !HasExpiredDate &&  !ExpiredDate) return [ErrorSpecific.ErrorEmpty('Debe ingresar la fecha de vencimiento del producto'),undefined];   
         if ( !stock ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el stock del producto'),undefined];
         if ( !PurchasePrice ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el precio de compra del producto'),undefined];
         if ( !SalePrice ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el precio de venta del producto'),undefined];  

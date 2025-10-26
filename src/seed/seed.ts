@@ -20,7 +20,7 @@
                 Description: "Para contactar",
                 Name: "Contacto",
                 HasSubMenu: false,
-                Url: "Contact",
+                Url: "products/Contact",
                 Position: 2,
                 CreatedDate: new Date(),                
             },
@@ -28,7 +28,7 @@
         ],
       });
 
-    await prisma.menues.create({
+        await prisma.menues.create({
             data: {
                 Description: "Todos las categorias",
                 Name: "Categoria",
@@ -41,31 +41,31 @@
                         {
                             Description: "Todo relacionada al deporte",
                             Name: "Deportes",
-                            Url: "sport",
+                            Url: "products/sport",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Todo relacionada al juguete",
                             Name: "Juguetes",
-                            Url: "game",
+                            Url: "products/game",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Dpto de electronica",
                             Name: "Electrónica",
-                            Url: "electronic",
+                            Url: "products/electronic",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Todo relacionada con hogar",
                             Name: "hogar",
-                            Url: "furniture",
+                            Url: "products/furniture",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Dpto de moda",
                             Name: "moda",
-                            Url: "mode",
+                            Url: "products/mode",
                             CreatedDate: new Date(),
                         }
                     ]
@@ -88,37 +88,37 @@
                         {
                             Description: "Todo relacionada al producto",
                             Name: "ABM Productos",
-                            Url: "ProductActions",
+                            Url: "products/ProductActions",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Todo relacionada al usuario",
                             Name: "ABM Usuarios",
-                            Url: "UserActions",
+                            Url: "products/UserActions",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Todo relacionada a las categorias",
                             Name: "ABM Categorias",
-                            Url: "categoryactions",
+                            Url: "products/categoryactions",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Todo relacionada con tipo de pago",
                             Name: "ABM tipo de pago",
-                            Url: "paymenttypeactions",
+                            Url: "products/paymenttypeactions",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Todo relacionada con presentaciones",
                             Name: "ABM Presentaciones",
-                            Url: "presentationactions",
+                            Url: "products/presentationactions",
                             CreatedDate: new Date(),
                         },
                         {
                             Description: "Todo relacionada con proveedores",
                             Name: "ABM Provedores",
-                            Url: "suplierActions",
+                            Url: "products/suplierActions",
                             CreatedDate: new Date(),
                         }
                     ]
@@ -128,7 +128,7 @@
             
         });
 
-     await prisma.roles.createMany({
+         await prisma.roles.createMany({
         data: [
             {
                 Name: "Admin",
@@ -261,13 +261,232 @@
                 State:2
             }
         ],
-    });
+        });
+
+        await prisma.categories.create({
+            data: {
+                Description: "Contiene todo lo relaciondo con electronica",
+                Name: "Electrónica",
+                CreatedDate: new Date(),
+                SubCategory: {
+                    create: [
+                        {
+                            Description: "Todo relacionado con celular",
+                            Name: "Celulares",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con compu y accesorios",
+                            Name: "Computadoras y accesorios",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con tableta",
+                            Name: "Tablets",
+                            CreatedDate: new Date(),
+                        }
+                    ]
+                },
+                
+            },
+            
+        });
+
+         await prisma.categories.create({
+            data: {
+                Description: "Contiene todo lo relaciondo con la ferretería",
+                Name: "Ferretería",
+                CreatedDate: new Date(),
+                SubCategory: {
+                    create: [
+                        {
+                            Description: "Todo relacionado con Plomería",
+                            Name: "Plomería",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Albañilería",
+                            Name: "Albañilería",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Carpintería",
+                            Name: "Carpintería",
+                            CreatedDate: new Date(),
+                        }
+                    ]
+                },
+                
+            },
+            
+        });
+
+         await prisma.categories.create({
+            data: {
+                Description: "Contiene todo lo relaciondo con la Ropa y Accesorios",
+                Name: "Ropa y Accesorios",
+                CreatedDate: new Date(),
+                SubCategory: {
+                    create: [
+                        {
+                            Description: "Todo relacionado con Camisetas",
+                            Name: "Camisetas",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Pantalones",
+                            Name: "Pantalones",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Zapatos",
+                            Name: "Zapatos ",
+                            CreatedDate: new Date(),
+                        }
+                    ]
+                },
+                
+            },
+            
+        });
+
+         await prisma.categories.create({
+            data: {
+                Description: "Contiene todo lo relaciondo con Hogar y cocina",
+                Name: "Hogar y cocina",
+                CreatedDate: new Date(),
+                SubCategory: {
+                    create: [
+                        {
+                            Description: "Todo relacionado con Utensilios de cocina",
+                            Name: "Utensilios de cocina",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Muebles",
+                            Name: "Muebles",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Decoración",
+                            Name: "Decoración ",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Limpieza",
+                            Name: "Limpieza ",
+                            CreatedDate: new Date(),
+                        }
+                    ]
+                },
+                
+            },
+            
+        });
+
+         await prisma.categories.create({
+            data: {
+                Description: "Contiene todo lo relaciondo con Deportes y aire libre",
+                Name: "Deportes y aire libre",
+                CreatedDate: new Date(),
+                SubCategory: {
+                    create: [
+                        {
+                            Description: "Todo relacionado con Ropa deportiva",
+                            Name: "Ropa deportiva",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Equipamiento de gimnasio",
+                            Name: "Equipamiento de gimnasio",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Accesorios de camping",
+                            Name: "Accesorios de camping ",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Herramientas de jardín",
+                            Name: "Herramientas de jardín ",
+                            CreatedDate: new Date(),
+                        }
+                    ]
+                },
+                
+            },
+            
+        });
+
+         await prisma.categories.create({
+            data: {
+                Description: "Contiene todo lo relaciondo con Ropa",
+                Name: "Ropa",
+                CreatedDate: new Date(),
+                SubCategory: {
+                    create: [
+                        {
+                            Description: "Todo relacionado con Ropa de hombre",
+                            Name: "Ropa de hombre",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Ropa de mujer",
+                            Name: "Ropa de mujer",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Ropa infantil",
+                            Name: "Ropa infantil",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Calzado",
+                            Name: "Calzado",
+                            CreatedDate: new Date(),
+                        },
+                        {
+                            Description: "Todo relacionado con Accesorios",
+                            Name: "Accesorios",
+                            CreatedDate: new Date(),
+                        }
+                    ]
+                },
+                
+            },
+            
+        });
+        await prisma.presentations.createMany({
+        data: 
+        [
+            {
+                Description: "Incluye el diseño del empaque (caja, botella, envase) que protege el producto y atrae al cliente.",
+                Name: "Embalaje",
+                CreatedDate: new Date(),
+            },
+            {
+                Description: "Se especifica el producto en unidades como kilogramos (kg), litros, unidades, etc., para definir la cantidad.",
+                Name: "Unidades de medida",
+                CreatedDate: new Date(),                
+            },
+            {
+                Description: "El producto exhibido en tiendas, stands, o en muestrarios, debe ser atractivo y organizado.",
+                Name: "Presentación física",
+                CreatedDate: new Date(),                
+            },
+            {
+                Description: "Catálogos, descripciones en línea, videos y presentaciones interactivas son cada vez más importantes. ",
+                Name: "Presentación digital",
+                CreatedDate: new Date(),                
+            }
+            
+        ],
+      });
 
     }
 
 main()
     .catch((e) => {
-    console.error(e);
     process.exit(1);
     })
     .finally(async () => {

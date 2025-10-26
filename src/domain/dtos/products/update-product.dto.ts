@@ -9,6 +9,7 @@ export class UpdateProductDto{
         public readonly SupplierId: string,
         public readonly Name: string,
         public readonly ImageUrl: string,
+        public readonly PublicIdUrl: string,
         public readonly Description: string
     ){}
 
@@ -21,13 +22,14 @@ export class UpdateProductDto{
         if ( this.SupplierId ) returnObj.SupplierId = this.SupplierId;
         if ( this.Name )  returnObj.Name = this.Name;
         if ( this.ImageUrl ) returnObj.ImageUrl = this.ImageUrl;
+        if ( this.PublicIdUrl ) returnObj.PublicIdUrl = this.PublicIdUrl;
         if ( this.Description )  returnObj.Description = this.Description;      
 
         return returnObj;
     }
 
     static update(props:{[key:string]:any}):[JsonObject?,UpdateProductDto?]{
-        const{Id,SubCategoryId, PresentationId, SupplierId, Name, ImageUrl, Description } = props;
+        const{Id,SubCategoryId, PresentationId, SupplierId, Name, ImageUrl,PublicIdUrl, Description } = props;
         
         if ( !Id )   return [ErrorSpecific.ErrorEmpty('Debe seleccionar el producto a modificar'),undefined];
         if ( !SubCategoryId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar la subcategoria del producto'),undefined]; 
@@ -35,6 +37,6 @@ export class UpdateProductDto{
         if ( !SupplierId ) return [ErrorSpecific.ErrorEmpty('Debe seleccionar el proveedor del producto'),undefined]; 
         if ( !Name ) return [ErrorSpecific.ErrorEmpty('Debe ingresar el nombre del producto'),undefined];    
 
-        return [undefined, new UpdateProductDto(Id,SubCategoryId, PresentationId, SupplierId, Name, ImageUrl, Description )]
+        return [undefined, new UpdateProductDto(Id,SubCategoryId, PresentationId, SupplierId, Name, ImageUrl,PublicIdUrl, Description )]
     }
 }

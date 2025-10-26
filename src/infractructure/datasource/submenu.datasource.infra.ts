@@ -4,7 +4,6 @@ import { ErrorSpecific } from "../../helpers";
 
 export class SubMenuDataSourceInfra implements SubMenuDatasource {
     async create(createDto: CreateSubMenuDto): Promise<SubMenuEntity> {
-       try {
          const entity = await prisma.subMenues.create({
             data:{
                 MenuId: createDto.MenuId,
@@ -15,9 +14,6 @@ export class SubMenuDataSourceInfra implements SubMenuDatasource {
             }
         });
         return SubMenuEntity.fromObject( entity );
-       } catch (error: any) {
-        throw ErrorSpecific.ErrorDB(error);
-       }
     }
 
     async getAll(): Promise<SubMenuEntity[]> {
@@ -39,8 +35,6 @@ export class SubMenuDataSourceInfra implements SubMenuDatasource {
     
     async updateById(updateDto: UpdateSubMenuDto): Promise<SubMenuEntity> {
         await this.findById( updateDto.Id );   
-        try {               
-
             const updatedentity = await prisma.subMenues.update({
                 where:{
                     Id:updateDto.Id
@@ -54,15 +48,10 @@ export class SubMenuDataSourceInfra implements SubMenuDatasource {
             });
 
             return SubMenuEntity.fromObject( updatedentity );
-        } catch (error) {
-            throw ErrorSpecific.ErrorDB(error);
-        }
     }
 
     async deleteById(id: string): Promise<SubMenuEntity> {
          await this.findById( id ); 
-       try { 
-
         const deleteentity = await prisma.subMenues.delete({
             where:{
                 Id:id
@@ -70,9 +59,6 @@ export class SubMenuDataSourceInfra implements SubMenuDatasource {
         });
 
         return SubMenuEntity.fromObject( deleteentity );
-       } catch (error) {
-        throw ErrorSpecific.ErrorDB(error);
-       }
     }
     
 }

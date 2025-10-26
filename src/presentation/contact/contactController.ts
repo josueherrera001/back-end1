@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { CreateContactDto,UpdateContactDto } from "../../domain/dtos/index";
 import { CreateContact, DeleteContact, GetContact, GetContacts, ContactRepository, UpdateContact } from '../../domain';
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../helpers";
 
 
 export class ContactController{
@@ -14,7 +16,11 @@ export class ContactController{
         new GetContacts( this.contactRepository )
         .execute()
         .then( todos => res.json( todos ))
-        .catch ( error => res.status(404).json({ error }));
+        .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 
     public get = (req:Request, res:Response) =>{
@@ -22,7 +28,11 @@ export class ContactController{
         new GetContact( this.contactRepository )
         .execute( id )
         .then( todo => res.json(todo) )
-        .catch ( error => res.status(404).json({ error }));
+        .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 
     public post = (req:Request, res:Response) =>{
@@ -32,7 +42,11 @@ export class ContactController{
        new CreateContact( this.contactRepository )
        .execute( createContactDto! )
        .then( todo => res.json(todo) )
-       .catch ( error => res.status(404).json({ error }));
+       .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 
     public put = (req:Request, res:Response) =>{
@@ -45,7 +59,11 @@ export class ContactController{
         new UpdateContact( this.contactRepository )
         .execute( updateTodoDto! )
         .then( todo => res.json(todo) )
-        .catch ( error => res.status(404).json({ error }));
+        .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 
     public delete = (req:Request, res:Response) =>{
@@ -54,6 +72,10 @@ export class ContactController{
         new DeleteContact( this.contactRepository )
         .execute( id! )
         .then( todo => res.json(todo) )
-        .catch ( error => res.status(404).json({ error }));
+        .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 }

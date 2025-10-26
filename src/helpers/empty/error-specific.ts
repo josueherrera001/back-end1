@@ -16,7 +16,7 @@ export class ErrorSpecific {
       case "P2002":
         return {
           code: 409,
-          message: "Ya existe un registro con los mismos datos",
+          message: `Ya existe un registro con los mismos datos --> ${error.meta.target.split('_')[1]}`,
         };
       case "P2003":
         return {

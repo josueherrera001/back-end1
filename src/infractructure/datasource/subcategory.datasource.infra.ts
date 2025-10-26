@@ -16,13 +16,17 @@ export class SubCategoryDataSourceInfra implements SubCategoryDatasource {
     }
 
     async getAll(CategoryId: string): Promise<SubCategoryEntity[]> {
-        const entities = await prisma.subCategories.findMany({
-            where:{
-                CategoryId: CategoryId
-            }
-        });
-
-        return entities.map(entity => SubCategoryEntity.fromObject(entity));
+      
+        if ( CategoryId !== 'suges'){
+            const entities = await prisma.subCategories.findMany({
+                where:{
+                    CategoryId: CategoryId
+                }
+            });
+            return entities.map(entity => SubCategoryEntity.fromObject(entity));
+        }
+         const entities = await prisma.subCategories.findMany();
+         return entities.map(entity => SubCategoryEntity.fromObject(entity));       
     }
 
     async findById(id: string): Promise<SubCategoryEntity> {
@@ -55,7 +59,8 @@ export class SubCategoryDataSourceInfra implements SubCategoryDatasource {
     }
 
     async deleteById(id: string): Promise<SubCategoryEntity> {
-        await this.findById( id );  
+       try {
+         await this.findById( id );  
 
         const deleteentity = await prisma.subCategories                                                                                                .delete({
             where:{
@@ -64,6 +69,9 @@ export class SubCategoryDataSourceInfra implements SubCategoryDatasource {
         });
 
         return SubCategoryEntity.fromObject( deleteentity );
+       } catch (error) {
+        throw ErrorSpecific.ErrorDB(error);
+       }
     }
     
 }

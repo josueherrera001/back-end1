@@ -6,9 +6,9 @@ export class LotDataSourceInfra implements LotDatasource {
     async create(createDto: CreateLotDto): Promise<LotEntity> {
         const entity = await prisma.lots.create({
             data:{
-                HasExpiredDate: createDto.HasExpiredDate,
+                HasExpiredDate: !!createDto.HasExpiredDate,
                 LotCode: createDto.LotCode,
-                ExpiredDate: createDto.ExpiredDate,
+                ExpiredDate: createDto.ExpiredDate === "" ? new Date() : createDto.ExpiredDate,
                 ProductCode: createDto.ProductCode,
                 PurchasePrice: createDto.PurchasePrice,
                 SalePrice: createDto.SalePrice,
@@ -48,10 +48,10 @@ export class LotDataSourceInfra implements LotDatasource {
             data:{
                 HasExpiredDate: updateDto.HasExpiredDate,
                 LotCode: updateDto.LotCode,
-                ExpiredDate: updateDto.ExpiredDate,
-                // ProductCode: updateDto.ProductCode,
-                // PurchasePrice: updateDto.PurchasePrice,
-                // SalePrice: updateDto.SalePrice,
+                ExpiredDate: updateDto.ExpiredDate === "" ? new Date() : updateDto.ExpiredDate,
+                ProductCode: updateDto.ProductCode,
+                PurchasePrice: updateDto.PurchasePrice,
+                SalePrice: updateDto.SalePrice,
                 stock: updateDto.stock,
                 ProductId: updateDto.ProductId
             }
@@ -60,8 +60,12 @@ export class LotDataSourceInfra implements LotDatasource {
         return LotEntity.fromObject( updatedEntity );
     }
 
-    async deleteById(id: string): Promise<LotEntity> {
-        await this.findById( id );  
+    async deleteById(id: string): Promise<LotEntity> {  
+         await this.findById( id );  
+
+         let result = await this.getAll();
+
+         if ( result.length <= 1) throw ErrorSpecific.ErrorEmpty(`El producto debe tener al menos un lote`);
 
         const deleteentity = await prisma.lots.delete({
             where:{

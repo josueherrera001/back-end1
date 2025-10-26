@@ -26,12 +26,15 @@ export const AuthToken = async(req:any, res:Response, next: any) =>{
             }
         });
          
-        if( !currentUser ) throw CustomError.notFound("No se encuentra ese usuario");
+        if( !currentUser ) throw CustomError.notFound("Hay que loguear para poder tener acceso al accion que desea realizar");
         req.userlogin = currentUser;
 
         next();
-        } catch (error) {
-            res.status(404).json({ error })
+        } catch (error:any) {
+            res.status(404).json({ 
+                message: error.message,
+                error: error.statusCode
+             })
         }
         
     }

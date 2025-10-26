@@ -3,6 +3,8 @@ import { AuthRepository, UpdateAuthDto} from "../../domain";
 import { Login } from "../../domain/use-case/auth/login-user";
 import { ValidateEmail } from "../../domain/use-case/auth/validate-email";
 import { ChangePassword } from "../../domain/use-case/auth/update.password";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ErrorSpecific } from "../../helpers";
 
 
 export class AuthController{
@@ -17,7 +19,11 @@ export class AuthController{
         new Login( this.Repository )
         .execute({ UserName, Password})
         .then( todos => res.json( todos ))
-        .catch ( error => res.status(404).json({ error }));
+        .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 
     public validateEmail = (req:Request, res:Response) =>{
@@ -25,7 +31,11 @@ export class AuthController{
         new ValidateEmail( this.Repository )
         .execute( token )
         .then( todo => res.json(todo) )
-        .catch ( error => res.status(404).json({ error }));
+        .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 
     public ChangePassword = (req:Request, res:Response) =>{
@@ -35,6 +45,10 @@ export class AuthController{
        new ChangePassword( this.Repository )
        .execute( Dto! )
        .then( todo => res.json(todo) )
-       .catch ( error => res.status(404).json({ error }));
+       .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
     }
 }

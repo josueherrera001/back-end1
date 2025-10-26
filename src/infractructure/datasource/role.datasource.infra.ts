@@ -15,7 +15,11 @@ export class RoleDataSourceInfra implements RoleDatasource {
     }
 
     async getAll(): Promise<RoleEntity[]> {
-        const entities = await prisma.roles.findMany();
+        const entities = await prisma.roles.findMany({
+            where:{
+                State:1
+            }
+        });
 
         return entities.map(entity => RoleEntity.fromObject(entity));
     }
@@ -23,7 +27,8 @@ export class RoleDataSourceInfra implements RoleDatasource {
     async findById(id: string): Promise<RoleEntity> {
         const entity = await prisma.roles.findFirst({
             where:{
-                Id:id
+                Id:id,
+                State:1
             }
         });
 

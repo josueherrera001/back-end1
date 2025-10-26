@@ -4,24 +4,49 @@ import { ErrorSpecific } from "../../helpers";
 
 export class ProductDataSourceInfra implements ProductDatasource {
     async create(createDto: CreateProductDto): Promise<ProductEntity> {
-        const entity = await prisma.products.create({
+       try {
+         const entity = await prisma.products.create({
             data:{
                 Description: createDto.Description,
                 Name: createDto.Name,
                 SubCategoryId: createDto.SubCategoryId,
                 PresentationId: createDto.PresentationId,
                 SupplierId: createDto.SupplierId,  
-                ImageUrl: createDto.ImageUrl,              
+                ImageUrl: createDto.ImageUrl,
+                PublicIdUrl: createDto.PublicIdUrl,              
                 CreatedDate: new Date(),
+                lots:{
+                    create:[
+                        {
+                            CreatedDate: new Date(),
+                            HasExpiredDate: createDto.lot.HasExpiredDate,
+                            LotCode:createDto.lot.LotCode,
+                            ProductCode: createDto.lot.ProductCode,
+                            PurchasePrice: createDto.lot.PurchasePrice,
+                            SalePrice:createDto.lot.SalePrice,
+                            stock: createDto.lot.stock,
+                            ExpiredDate:createDto.lot.ExpiredDate
+                        }
+                    ]
+                }
             }
         });
         return ProductEntity.fromObject( entity );
+       } catch (error) {
+        throw ErrorSpecific.ErrorDB( error );
+       }
     }
 
-    async getAll(): Promise<ProductEntity[]> {
-        const entities = await prisma.products.findMany();
-
-        return entities.map(entity => ProductEntity.fromObject(entity));
+    async getAll(): Promise<any[]> {
+        const entities = await prisma.products.findMany({
+            include:{
+                lots:true,              
+                Presentation:true,
+                SubCategory:true,
+                Supplier:true
+            }
+        });
+        return entities;
     }
 
     async findById(id: string): Promise<ProductEntity> {
@@ -36,7 +61,8 @@ export class ProductDataSourceInfra implements ProductDatasource {
     }
     
     async updateById(updateDto: UpdateProductDto): Promise<ProductEntity> {
-        
+      try {
+          
         await this.findById( updateDto.Id );       
 
         const updatedentity = await prisma.products.update({
@@ -54,10 +80,15 @@ export class ProductDataSourceInfra implements ProductDatasource {
         });
 
         return ProductEntity.fromObject( updatedentity );
+      } catch (error) {
+        throw ErrorSpecific.ErrorDB( error );
+        
+      }
     }
 
     async deleteById(id: string): Promise<ProductEntity> {
-        await this.findById( id );  
+       try {
+         await this.findById( id );  
 
         const deleteentity = await prisma.products.delete({
             where:{
@@ -65,6 +96,9 @@ export class ProductDataSourceInfra implements ProductDatasource {
             }
         });
         return ProductEntity.fromObject( deleteentity );
+       } catch (error) {
+        throw ErrorSpecific.ErrorDB( error );
+       }
     }
     
 }

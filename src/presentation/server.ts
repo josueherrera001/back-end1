@@ -5,6 +5,8 @@ import swaggerui from 'swagger-ui-express';
 import cors from 'cors';
 
 import swaggerspc from './../swagger';
+import { configureBigIntSerialization } from '../utils/bigint-serializer';
+import { bigIntSerializer } from '../Middlewares/bigint-middleware';
 
 interface Options{
     PORT: number; 
@@ -29,11 +31,14 @@ export class Server{
 
     async start (){
 
+        configureBigIntSerialization();
         //** Middlewares */
         this.app.use(express.json()) //* To transform the data to raw json example
         this.app.use(express.urlencoded({ extended:true })) //* In case you send the data in another way, for example x-www-form-urlencoded
         this.app.use( compression() );
         this.app.use(cors()); 
+
+        this.app.use(bigIntSerializer);
 
         //** Public folder */
         this.app.use(express.static(this.publicPath));
