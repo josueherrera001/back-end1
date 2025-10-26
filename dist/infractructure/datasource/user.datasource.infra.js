@@ -111,7 +111,16 @@ class UserDataSourceInfra {
     }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const users = yield data_1.prisma.users.findMany();
+            const users = yield data_1.prisma.users.findMany({
+                include: {
+                    Accounts: {
+                        include: {
+                            Role: true
+                        }
+                    },
+                    Addresses: true
+                }
+            });
             return users.map((user) => user_entity_1.UserEntity.fromObject(user));
         });
     }

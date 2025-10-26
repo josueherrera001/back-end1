@@ -88,11 +88,19 @@ export class UserDataSourceInfra implements UserDatasource {
     };
   }
 
-  async getAll(): Promise<UserEntity[]> {
-    const users = await prisma.users.findMany();
-    return users.map((user) => UserEntity.fromObject(user));
-  }
-
+async getAll(): Promise<UserEntity[]> {  
+  const users = await prisma.users.findMany({  
+    include: {  
+      Accounts: {  
+        include: {  
+          Role: true  
+        }  
+      },  
+      Addresses: true  
+    }  
+  });  
+  return users.map((user) => UserEntity.fromObject(user));  
+}
   async findById(id: string): Promise<UserEntity> {
     const user = await prisma.users.findFirst({
       include: {
@@ -107,18 +115,21 @@ export class UserDataSourceInfra implements UserDatasource {
     return UserEntity.fromObject(user);
   }
 
-  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    await this.findById(updateUserDto.Id);
-
-    const updatedContact = await prisma.users.update({
-      where: {
-        Id: updateUserDto.Id,
-      },
-      data: updateUserDto!.Values,
-    });
-
-    return UserEntity.fromObject(updatedContact);
-  }
+  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {  
+  await this.findById(updateUserDto.Id);  
+  const updateData: any = { ...updateUserDto.Values };  
+    
+  if (updateData.Accounts?.update?.data?.UserPass === '') {  
+    delete updateData.Accounts.update.data.UserPass;  
+  }  
+  
+  const updatedContact = await prisma.users.update({  
+    where: { Id: updateUserDto.Id },  
+    data: updateData,  
+  });  
+  
+  return UserEntity.fromObject(updatedContact);  
+}
 
   async deleteById(id: string): Promise<UserEntity> {
     let user = await this.findById(id);
