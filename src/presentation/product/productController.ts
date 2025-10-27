@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreateProductDto,  UpdateProductDto } from "../../domain/dtos/index";
 import { ProductRepository, GetProducts, GetProduct, CreateProduct, UpdateProduct, DeleteProduct } from '../../domain';
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/library";
 import { ErrorSpecific } from "../../helpers";
 
 
@@ -43,7 +43,7 @@ export class ProductController{
        .execute( Dto! )
        .then( todo => res.json(todo) )
        .catch ( error =>  {
-            if( error instanceof PrismaClientKnownRequestError)
+            if( error instanceof PrismaClientKnownRequestError || error instanceof PrismaClientValidationError)
                 return ErrorSpecific.ErrorDB( error );
             return res.status(404).json({ error })}
         );

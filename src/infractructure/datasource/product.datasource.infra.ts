@@ -4,7 +4,7 @@ import { ErrorSpecific } from "../../helpers";
 
 export class ProductDataSourceInfra implements ProductDatasource {
     async create(createDto: CreateProductDto): Promise<ProductEntity> {
-       try {
+       console.log(createDto);
          const entity = await prisma.products.create({
             data:{
                 Description: createDto.Description,
@@ -19,22 +19,19 @@ export class ProductDataSourceInfra implements ProductDatasource {
                     create:[
                         {
                             CreatedDate: new Date(),
-                            HasExpiredDate: createDto.lot.HasExpiredDate,
+                            HasExpiredDate: !!createDto.lot.HasExpiredDate,
                             LotCode:createDto.lot.LotCode,
                             ProductCode: createDto.lot.ProductCode,
                             PurchasePrice: createDto.lot.PurchasePrice,
                             SalePrice:createDto.lot.SalePrice,
                             stock: createDto.lot.stock,
-                            ExpiredDate:createDto.lot.ExpiredDate
+                            ExpiredDate:createDto.lot.ExpiredDate === null ? new Date() : createDto.lot.ExpiredDate
                         }
                     ]
                 }
             }
         });
         return ProductEntity.fromObject( entity );
-       } catch (error) {
-        throw ErrorSpecific.ErrorDB( error );
-       }
     }
 
     async getAll(): Promise<any[]> {
