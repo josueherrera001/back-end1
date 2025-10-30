@@ -26,6 +26,7 @@ import { SupplierRoutes } from "../supplier/routes";
     import './role-doc';
     import './submenu-doc';
 import { ImagenRoutes } from "../imagen/routes";
+import { AccountMenuItemRoutes } from "../accountMenuItem/routes";
 //#endregion
 
 
@@ -49,6 +50,7 @@ export class AppRoutes{
         router.use(`/api/${ envs.APP_API_VERSION }/submenus`,SubMenuRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/suppliers`, SupplierRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/imagenes`, ImagenRoutes.route);
+        router.use(`/api/${ envs.APP_API_VERSION }/accountmenuitem`, AccountMenuItemRoutes.route);
         return router;
     }
 }

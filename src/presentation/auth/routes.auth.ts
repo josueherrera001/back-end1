@@ -14,6 +14,8 @@ export class AuthRoutes{
         const ctrl = new AuthController( todoRepository );
 
         router.post('/',ctrl.login);  
+        router.post('/logout',ctrl.logout);  
+        router.get('/allaccount',ctrl.allAccount);
         router.get('/validate-email/:token',ctrl.validateEmail);
         router.use(AuthToken);
         router.put('/change/:id',AuthToken,ctrl.ChangePassword);

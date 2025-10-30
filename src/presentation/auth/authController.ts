@@ -5,6 +5,7 @@ import { ValidateEmail } from "../../domain/use-case/auth/validate-email";
 import { ChangePassword } from "../../domain/use-case/auth/update.password";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ErrorSpecific } from "../../helpers";
+import { AllAccount } from "../../domain/use-case/auth/all-account";
 
 
 export class AuthController{
@@ -24,6 +25,32 @@ export class AuthController{
                 return ErrorSpecific.ErrorDB( error );
             return res.status(404).json({ error })}
         );
+    }
+
+    public allAccount = (req:Request, res:Response) =>{
+        new AllAccount( this.Repository )
+        .execute()
+        .then( todos => res.json( todos ))
+        .catch ( error =>  {
+            if( error instanceof PrismaClientKnownRequestError)
+                return ErrorSpecific.ErrorDB( error );
+            return res.status(404).json({ error })}
+        );
+    }
+
+    public logout = (req:any, res:Response) =>{
+
+        console.log("antes de token: ");
+
+        const token = req.headers.authorization?.replace('Bearer ', '');
+        if (token) {
+           req.userlogin = null;
+           res.json({ success: true, message: 'Sesión cerrada' });
+        }
+        else{
+            res.json({ success: false, "No hubo session abierta": 'Sesión cerrada' });
+        }
+                
     }
 
     public validateEmail = (req:Request, res:Response) =>{

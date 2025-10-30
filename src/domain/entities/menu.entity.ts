@@ -15,7 +15,7 @@ export class MenuEntity{
     ){}
 
     public static fromObject (object:{[key: string]:any}){
-        const{Id,Name, Url, HasSubMenu, Description, Position, SubMenu= [] } = object;    
+        const{Id,Name, Url, HasSubMenu, Description, Position, SubMenu= [] } = object;   
         return new MenuEntity(Id,Name, Url, HasSubMenu, Description,Position,SubMenu.map((submenu: any) => SubMenuEntity.fromObject(submenu)));
     }
 }

@@ -1,4 +1,4 @@
-import { LoginEntity, AuthRepository, LoginUserDto, UpdateAuthDto } from "../../domain";
+import { LoginEntity, AuthRepository, LoginUserDto, UpdateAuthDto, AccountEntity } from "../../domain";
 import { AuthDatasource } from "../../domain/datasources/auth.DataSource";
 
  export class AuthRepositoryInfra implements AuthRepository{
@@ -6,6 +6,9 @@ import { AuthDatasource } from "../../domain/datasources/auth.DataSource";
     constructor(
         private readonly datasource: AuthDatasource
     ){}
+    AllAccount(): Promise<AccountEntity[]> {
+       return this.datasource.AllAccount(  );
+    }
      Login(LoginUser: LoginUserDto): Promise<LoginEntity> {
         return this.datasource.Login( LoginUser );
      }

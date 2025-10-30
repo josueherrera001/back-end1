@@ -2,15 +2,22 @@ import { Accounts } from './../../../node_modules/.prisma/client/index.d';
 import { bcryptAdapter } from "../../config/bcrypt.adapter";
 import { JwtAdapter } from "../../config/jwt.adapter";
 import { prisma } from "../../data";
-import { LoginEntity, LoginUserDto, UpdateAuthDto } from "../../domain";
+import { AccountEntity, LoginEntity, LoginUserDto, UpdateAuthDto } from "../../domain";
 import { AuthDatasource } from "../../domain/datasources/auth.DataSource";
 import { CustomError } from "../../helpers/error/custom.error";
 import { ErrorSpecific } from '../../helpers';
 
 export class AuthDataSourceInfra implements AuthDatasource {
-    // constructor(
-    //     // private readonly emailService: EmailService
-    // ){}
+    async AllAccount(): Promise<AccountEntity[]> {
+         const existUser = await prisma.accounts.findMany({
+           where:{
+            State:1
+           }
+         });
+         console.log(existUser);
+    return existUser.map(entity => AccountEntity.fromObject(entity));
+
+    }
     async Login(dto: LoginUserDto): Promise<LoginEntity> {
         const existUser = await prisma.accounts.findFirst({
             include:{
@@ -29,7 +36,8 @@ export class AuthDataSourceInfra implements AuthDatasource {
         const isMatching = bcryptAdapter.compare(dto.Password, existUser.UserPass!);
         if ( !isMatching ) throw CustomError.badRequest('Usuario y/o contraseña incorrecto');       
 
-           let createtoken:string = await JwtAdapter.generateToken({           
+           let createtoken:string = await JwtAdapter.generateToken({   
+            Id:existUser.Id,        
             UserId:existUser.UserId,            
             RoleId: existUser.RoleId,
             UserName:existUser.UserName,

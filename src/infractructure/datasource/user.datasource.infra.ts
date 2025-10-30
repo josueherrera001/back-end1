@@ -16,76 +16,124 @@ import { CustomError } from "../../helpers/error/custom.error";
 
 export class UserDataSourceInfra implements UserDatasource {
   constructor(private readonly emailService: EmailService) {}
-  async create(
-    createuserDto: CreateUserDto,
-    auth: RegisterAuthDto
-  ): Promise<LoginEntity> {
-    const existUser = await prisma.users.findFirst({
-      where: { Email: createuserDto.Email },
-      select: { Email: true },
-    });
-    let role = await prisma.roles.findFirst({where: { Name: "Empleado" }});
-    let roleId = auth.RoleId == undefined ? auth.RoleId : role?.Id;
+  async create(createuserDto: CreateUserDto,auth: RegisterAuthDto): Promise<LoginEntity> {
+   try {
+     return await prisma.$transaction(async (tx) => {
+       const existUser = await prisma.users.findFirst({
+         where: { Email: createuserDto.Email },
+         select: { Email: true },
+       });
+       let role = await prisma.roles.findFirst({
+         where: { Name: "Usuario" },
+       });
+       let roleId = auth.RoleId == undefined ? auth.RoleId : role?.Id;
 
-    if (existUser) throw CustomError.badRequest("Ya existio ese email");
+       if (existUser) throw CustomError.badRequest("Ya existio ese email");
 
-    let pass = bcryptAdapter.has(auth.UserPass);
-    const User = await prisma.users.create({
-      data: {
-        FirstName: createuserDto.FirstName,
-        LastName: createuserDto.LastName,
-        State: 1,
-        PhoneNumber: createuserDto.Phone,
-        Email: createuserDto.Email,
-        CreatedDate: new Date(Date.now()),
-        Accounts: {
-          create: [
-            {
-              UserName: auth.UserName,
-              RoleId: roleId!,
-              State: 1,
-              UserPass: pass,
-              CreatedDate: new Date(Date.now()),
-              EmailValidated: false,
-            },
-          ],
-        },
-        Addresses: {
-          create: [
-            {
-              Between: createuserDto.Address.BetweenStreet,
-              CreatedDate: new Date(Date.now()),
-              Country: createuserDto.Address.Country,
-              Province: createuserDto.Address.Province,
-              Location: createuserDto.Address.Location,
-              Number: createuserDto.Address.StreetNumber,
-              Street: createuserDto.Address.Street,
-            },
-          ],
-        },
-      },
-    });
-   
-    //* JWT <----- Para mantener la autencation
+       let pass = bcryptAdapter.has(auth.UserPass);
+       const User = await tx.users.create({
+         data: {
+           FirstName: createuserDto.FirstName,
+           LastName: createuserDto.LastName,
+           State: 1,
+           PhoneNumber: createuserDto.Phone,
+           Email: createuserDto.Email,
+           CreatedDate: new Date(Date.now()),          
+           Addresses: {
+             create: [
+               {
+                 Between: createuserDto.Address.BetweenStreet,
+                 CreatedDate: new Date(Date.now()),
+                 Country: createuserDto.Address.Country,
+                 Province: createuserDto.Address.Province,
+                 Location: createuserDto.Address.Location,
+                 Number: createuserDto.Address.StreetNumber,
+                 Street: createuserDto.Address.Street,
+               },
+             ],
+           },
+         },
+       });
+       let account = await tx.accounts.create({
+        data:{
+            UserId:User.Id,
+            UserName: auth.UserName,
+            RoleId: roleId!,
+            State: 1,
+            UserPass: pass,
+            CreatedDate: new Date(Date.now()),
+            EmailValidated: false,
+          }
+       });
 
-    const token: any = await JwtAdapter.generateToken({
-      UserId: User.Id,
-      RoleId: roleId,
-      UserName: auth.UserName,
-      Email: User.Email,
-      Role: role?.Name
-    });
+       let menu = await prisma.menues.findMany({
+        where:{
+          State: 1
+        }
+       });
 
-    await this.sendEmailValidattionLink(
-        token,
-        User.Email,
-        User.FirstName + " " + User.LastName
-      );
+       for (let index = 0; index < menu.length; index++) {
+        const element = menu[index];
+        if( element.Name === 'Categoria' || element.Name === 'Inicio' || element.Name ==='Contacto'){
+          let accountmenu = await tx.accountMenus.create({
+              data:{
+                MenuId:element.Id,
+                AccountId: account!.Id,            
+                CreatedDate: new Date(Date.now()),            
+              }
+            });
+            
+          let submenu = await prisma.subMenues.findMany({
+            where:{
+              AND:[
+                { MenuId: element.Id },
+                { State: 1 }
+              ]
+            }
+          });
 
-    return {
-      UserName: auth.UserName,
-      token: token,
-    };
+          for (let index = 0; index < submenu.length; index++) {
+            const element = submenu[index];
+            await tx.accountMenuItem.create({
+              data:{
+                SubMenuId:element.Id,
+                AccountMenuId: accountmenu.Id,
+                AccountId: account!.Id
+              }
+            });
+          }
+        }
+       
+        
+       }
+       //* JWT <----- Para mantener la autencation
+
+       const token: any = await JwtAdapter.generateToken({
+         Id:account.Id,
+         UserId: User.Id,
+         RoleId: roleId,
+         UserName: auth.UserName,
+         Email: User.Email,
+         Role: role?.Name,
+       });
+
+       await this.sendEmailValidattionLink(
+         token,
+         User.Email,
+         User.FirstName + " " + User.LastName
+       );
+
+       return {
+         UserName: auth.UserName,
+         token: token,
+       };
+     });
+   } catch (error) {
+    console.error("Transaccion fallido: ", error)
+     throw error;
+   } finally {
+     await prisma.$disconnect();
+   }
   }
 
 async getAll(): Promise<UserEntity[]> {  

@@ -58,6 +58,9 @@ model Accounts {
 
   User Users @relation(fields: [UserId], references: [Id])
   Role Roles @relation(fields: [RoleId], references: [Id])
+
+  accountMenuItem AccountMenuItem[]  
+  sessions  Session[]
 }
 
 model Roles {
@@ -127,19 +130,37 @@ model SubMenues {
   State       Int       @default(1)
 
   Menu Menues @relation(fields: [MenuId], references: [Id])
+
+  accountMenuItem AccountMenuItem[]
 }
 
 model AccountMenus {
   Id          String    @id @default(uuid())
   MenuId      String    @db.VarChar(100)
   AccountId   String    @db.VarChar(100)
-  Name        String    @db.VarChar(100)
-  Description String?   @db.VarChar(100)
   CreatedDate DateTime  @db.Timestamp()
   FinalDate   DateTime?
   State       Int       @default(1)
   Account     Accounts  @relation(fields: [AccountId], references: [Id])
   Menu        Menues    @relation(fields: [MenuId], references: [Id])
+
+  accountMenuItem AccountMenuItem[]
+}
+
+model AccountMenuItem {
+  Id           String   @id @default(cuid())
+  AccountId       String
+  SubMenuId   String
+  AccountMenuId   String
+
+  // Relaciones
+  account     Accounts  @relation(fields: [AccountId], references: [Id])
+  subMenue    SubMenues @relation(fields: [SubMenuId], references: [Id])
+  accountMenu AccountMenus @relation(fields: [AccountMenuId], references: [Id])
+
+  
+  // Account     Accounts  @relation(fields: [AccountId], references: [Id])
+  // Menu        Menues    @relation(fields: [MenuId], references: [Id])
 }
 
 model Categories {
@@ -227,4 +248,14 @@ model Lots {
   State          Int       @default(1)
 
   Product Products @relation(fields: [ProductId], references: [Id])
+}
+model Session {
+  Id           String   @id @default(cuid())
+  AccountId       String
+  token        String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  account         Accounts     @relation(fields: [AccountId], references: [Id])
 }

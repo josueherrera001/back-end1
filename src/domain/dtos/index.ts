@@ -48,3 +48,7 @@ export * from './submenu/update-submenu.dto';
 export * from './supplier/create-supplier.dto';
 export * from './supplier/delete-supplier.dto';
 export * from './supplier/update-supplier.dto';
+
+export * from './accountmenuitem/create-accountmenuitem.dto';
+export * from './accountmenuitem/update-accountmenuitem.dto';
+export * from './accountmenuitem/update-accountmenuitem.dto';
