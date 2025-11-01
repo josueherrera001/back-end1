@@ -1,3 +1,4 @@
+import { AccountEntity } from "./account.entity";
 import { MenuEntity } from "./menu.entity";
 
 export class AccountMenuEntity{
@@ -7,14 +8,14 @@ export class AccountMenuEntity{
         public readonly AccountId: string,
         public readonly Menu: MenuEntity,
 
-        // public readonly AccountMenu: AccountMenuEntity,
+        public readonly Account: AccountEntity,
         // public readonly subMenu: SubMenuEntity[],
         // public readonly menu: MenuEntity
     ){}
 
     public static fromObject (object:{[key: string]:any}){
-        const{Id, MenuId, AccountId,Menu } = object;  
+        const{Id, MenuId, AccountId,Menu ,Account} = object;  
         // SubMenu.map((submenu: any) => SubMenuEntity.fromObject(submenu))      
-        return new AccountMenuEntity(Id, MenuId, AccountId, Menu );
+        return new AccountMenuEntity(Id, MenuId, AccountId, Menu,Account );
     }
 }
