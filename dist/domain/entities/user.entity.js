@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
 class UserEntity {
-    constructor(Id, FirstName, LastName, Address, Email, Phone, PhoneNumber, Accounts, Addresses) {
+    constructor(Id, FirstName, LastName, Address, Email, Phone, PhoneNumber, Accounts, Adresses) {
         this.Id = Id;
         this.FirstName = FirstName;
         this.LastName = LastName;
@@ -11,11 +11,11 @@ class UserEntity {
         this.Phone = Phone;
         this.PhoneNumber = PhoneNumber;
         this.Accounts = Accounts;
-        this.Addresses = Addresses;
+        this.Adresses = Adresses;
     }
     static fromObject(object) {
-        const { Id, FirstName, LastName, Address, Email, PhoneNumber, Phone, Accounts, Addresses } = object;
-        return new UserEntity(Id, FirstName, LastName, Address, Email, PhoneNumber, Phone, Accounts, Addresses);
+        const { Id, FirstName, LastName, Address, Email, PhoneNumber, Phone, Accounts, Adresses } = object;
+        return new UserEntity(Id, FirstName, LastName, Address, Email, PhoneNumber, Phone, Accounts, Adresses);
     }
 }
 exports.UserEntity = UserEntity;

@@ -42,12 +42,12 @@ export class UserDataSourceInfra implements UserDatasource {
            Addresses: {
              create: [
                {
-                 Between: createuserDto.Address.BetweenStreet || createuserDto.Address.BetweenStreet,
+                 Between: createuserDto.Address.BetweenStreet,
                  CreatedDate: new Date(Date.now()),
                  Country: createuserDto.Address.Country,
                  Province: createuserDto.Address.Province,
                  Location: createuserDto.Address.Location,
-                 Number: createuserDto.Address.StreetNumber || createuserDto.Address.StreetNumber,  
+                 Number: createuserDto.Address.StreetNumber,
                  Street: createuserDto.Address.Street,
                },
              ],
@@ -102,8 +102,8 @@ export class UserDataSourceInfra implements UserDatasource {
               }
             });
           }
-        
         }
+       
         
        }
        //* JWT <----- Para mantener la autencation
@@ -149,96 +149,34 @@ async getAll(): Promise<UserEntity[]> {
   });  
   return users.map((user) => UserEntity.fromObject(user));  
 }
-  async findById(id: string): Promise<UserEntity> {  
-  const user = await prisma.users.findFirst({  
-    include: {  
-      Accounts: {  
-        include: {  
-          Role: true  
-        }  
-      },  
-      Addresses: true  
-    },  
-    where: {  
-      Id: id,  
-    },  
+  async findById(id: string): Promise<UserEntity> {
+    const user = await prisma.users.findFirst({
+      include: {
+        Accounts: true,
+      },
+      where: {
+        Id: id,
+      },
+    });
+
+    if (!user) throw ErrorSpecific.ErrorEmpty(`Id usuario:  ${id} no encontrado`);
+    return UserEntity.fromObject(user);
+  }
+
+  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {  
+  await this.findById(updateUserDto.Id);  
+  const updateData: any = { ...updateUserDto.Values };  
+    
+  if (updateData.Accounts?.update?.data?.UserPass === '') {  
+    delete updateData.Accounts.update.data.UserPass;  
+  }  
+  
+  const updatedContact = await prisma.users.update({  
+    where: { Id: updateUserDto.Id },  
+    data: updateData,  
   });  
   
- if (!user) throw ErrorSpecific.ErrorEmpty(`Id usuario:  ${id} no encontrado`);  
-  return UserEntity.fromObject(user);   
-}
-
-  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {        
-  console.log('=== DEBUG updateById (Datasource) ===');      
-  console.log('updateUserDto.Id:', updateUserDto.Id);      
-  console.log('updateUserDto completo:', updateUserDto);      
-  console.log('updateUserDto.Values:', updateUserDto.Values);   
-  
-  await this.findById(updateUserDto.Id);      
-      
-  const updateData: any = { ...updateUserDto.Values };      
-        
-  // Manejar contraseñas vacías (si existen en Accounts)    
-  if (updateData.Accounts?.update?.data?.UserPass === '') {      
-    delete updateData.Accounts.update.data.UserPass;      
-  }      
-      
-  // Extraer el objeto address si existe    
-  const addressData = updateData.address;    
-  delete updateData.address; // Remover del objeto principal    
-      
-  // Construir el objeto para Prisma    
-  const prismaUpdateData: any = { ...updateData };    
-      
-  // Si hay datos de dirección, construir la estructura correcta para Prisma    
-  if (addressData) {    
-    // Obtener la dirección existente del usuario  
-    const existingAddress = await prisma.addresses.findFirst({  
-      where: { UserId: updateUserDto.Id }  
-    });  
-  
-    if (existingAddress) {  
-      // Usar 'update' para actualizar la dirección existente  
-      prismaUpdateData.Addresses = {    
-        update: {  
-          where: { Id: existingAddress.Id },  
-          data: {    
-            Country: addressData.Country,    
-            Province: addressData.Province,    
-            Location: addressData.Location,    
-            Street: addressData.Street,    
-            Number: addressData.Number,    
-            Between: addressData.Between    
-          }    
-        }  
-      };    
-    } else {  
-      // Si no existe dirección, crear una nueva  
-      prismaUpdateData.Addresses = {  
-        create: {  
-          Country: addressData.Country,  
-          Province: addressData.Province,  
-          Location: addressData.Location,  
-          Street: addressData.Street,  
-          Number: addressData.Number,  
-          Between: addressData.Between,  
-          CreatedDate: new Date(),  
-          State: 1  
-        }  
-      };  
-    }  
-  }    
-      
-  const updatedContact = await prisma.users.update({      
-    where: { Id: updateUserDto.Id },      
-    data: prismaUpdateData,    
-    include: {    
-      Addresses: true,    
-      Accounts: true    
-    }    
-  });      
-      
-  return UserEntity.fromObject(updatedContact);      
+  return UserEntity.fromObject(updatedContact);  
 }
 
   async deleteById(id: string): Promise<UserEntity> {

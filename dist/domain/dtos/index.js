@@ -52,6 +52,3 @@ __exportStar(require("./submenu/update-submenu.dto"), exports);
 __exportStar(require("./supplier/create-supplier.dto"), exports);
 __exportStar(require("./supplier/delete-supplier.dto"), exports);
 __exportStar(require("./supplier/update-supplier.dto"), exports);
-__exportStar(require("./accountmenuitem/create-accountmenuitem.dto"), exports);
-__exportStar(require("./accountmenuitem/update-accountmenuitem.dto"), exports);
-__exportStar(require("./accountmenuitem/update-accountmenuitem.dto"), exports);

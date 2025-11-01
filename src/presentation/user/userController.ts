@@ -52,15 +52,10 @@ export class UserController{
     }
 
     public put = (req:Request, res:Response) =>{
-        console.log('=== DEBUG UserController.put (Backend) ===');  
-        console.log('req.params.id:', req.params.id);  
-        console.log('req.body:', req.body); 
-        const id = req.params.id;
-        console.log('Id extraído:', id);  
-        console.log('Objeto combinado:', {...req.body, id})
-        const [error, updateTodoDto] = UpdateUserDto.update({...req.body, id});
-        console.log('Error del DTO:', error);  
-        console.log('DTO creado:', updateTodoDto);  
+
+        const Id = req.params.id;
+
+        const [error, updateTodoDto] = UpdateUserDto.update({...req.body, Id});
         if ( error ) return res.status(400).json(error);
      
         new UpdateUser( this.Repository )

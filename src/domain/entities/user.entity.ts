@@ -10,12 +10,12 @@ export class UserEntity{
         public readonly Phone: string,
         public readonly PhoneNumber: string,
         public readonly Accounts:LoginEntity[],
-        public readonly Addresses?: any[]
+        public readonly Adresses?: any[]
     ){ }
 
     static fromObject(object:{[key:string]:any}){
-        const{ Id, FirstName, LastName, Address, Email,PhoneNumber, Phone,Accounts,Addresses} = object;
+        const{ Id, FirstName, LastName, Address, Email,PhoneNumber, Phone,Accounts,Adresses} = object;
 
-        return new UserEntity( Id,FirstName, LastName, Address, Email,PhoneNumber, Phone,Accounts, Addresses);
+        return new UserEntity( Id,FirstName, LastName, Address, Email,PhoneNumber, Phone,Accounts, Adresses);
     }
 }
