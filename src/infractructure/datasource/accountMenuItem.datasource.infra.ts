@@ -31,8 +31,11 @@ export class AccountMenuItemDataSourceInfra implements AccountMenuItemDatasource
                             }
                         }
                     }
-                }
-              }  
+                },
+                // User:true // Removed as it does not exist in the type
+              },
+                User:true,
+                Role:true  
             }
         });
         return entities.map(entity => AccountMenuItemEntity.fromObject(entity));

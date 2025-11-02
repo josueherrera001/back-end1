@@ -61,6 +61,7 @@ model Accounts {
 
   accountMenuItem AccountMenuItem[]  
   sessions  Session[]
+  sales    Sales[]
 }
 
 model Roles {
@@ -258,4 +259,52 @@ model Session {
   updatedAt    DateTime @updatedAt
 
   account         Accounts     @relation(fields: [AccountId], references: [Id])
+}
+model Sales {
+  Id                String   @id @default(cuid())
+  AccountId         String
+  InvoiceCode       String   @unique
+  OpenWorkTurnId    String?
+  IsOnline          Boolean
+  Total             Decimal   @db.Decimal(18, 2)
+  finalizeSale      Boolean
+  TotalProfit       Decimal   @db.Decimal(18, 2)
+  SaleType          String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  state             Int      @default(1)
+
+  account         Accounts     @relation(fields: [AccountId], references: [Id])
+  saleDetails    SaleDetails[]
+  PayDetail      PayDetails[]
+}
+
+model SaleDetails {
+  Id                String   @id @default(cuid())
+  SaleId            String
+  productId         String  
+  price             Decimal   @db.Decimal(18, 2)
+  quantity          Int
+  Total             Decimal   @db.Decimal(18, 2)
+  Profit            Decimal   @db.Decimal(18, 2)
+  SubCategoryId     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  state             Int      @default(1)
+
+  sale         Sales     @relation(fields: [SaleId], references: [Id])
+
+}
+
+model PayDetails {
+  Id                String   @id @default(cuid())
+  SaleId            String
+  PaymentTypeId     String  
+  Amount            Decimal   @db.Decimal(18, 2)
+  CodeLotePayment   String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  state             Int      @default(1)
+
+  sale         Sales     @relation(fields: [SaleId], references: [Id])
 }

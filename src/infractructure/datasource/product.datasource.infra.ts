@@ -4,7 +4,6 @@ import { ErrorSpecific } from "../../helpers";
 
 export class ProductDataSourceInfra implements ProductDatasource {
     async create(createDto: CreateProductDto): Promise<ProductEntity> {
-       console.log(createDto);
          const entity = await prisma.products.create({
             data:{
                 Description: createDto.Description,

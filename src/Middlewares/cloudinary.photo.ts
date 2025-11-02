@@ -33,7 +33,6 @@ export class CloudinyPhoto{
     }; 
 
     public static updatePhoto =  async (imageUrl: string, publicId: string) => {
-      console.log({imageUrl, publicId});
         cloudinary.uploader.explicit(imageUrl, {
         type: 'fetch',
         public_id: publicId,
