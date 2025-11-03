@@ -52,9 +52,10 @@ export class UserController{
     }
 
     public put = (req:Request, res:Response) =>{
-
         const Id = req.params.id;
-
+const id = req.params.id;  
+console.log('ID recibido:', id, '| Primer carácter:', id.charAt(0));  
+console.log('Objeto combinado:', {...req.body, id})
         const [error, updateTodoDto] = UpdateUserDto.update({...req.body, Id});
         if ( error ) return res.status(400).json(error);
      
@@ -62,6 +63,7 @@ export class UserController{
         .execute( updateTodoDto! )
         .then( todo => res.json(todo) )
         .catch ( error =>  {
+            console.log('Error capturado en el controlador:', error);
             if( error instanceof PrismaClientKnownRequestError)
                 return ErrorSpecific.ErrorDB( error );
             return res.status(404).json({ error })}

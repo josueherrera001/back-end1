@@ -163,7 +163,9 @@ async getAll(): Promise<UserEntity[]> {
     return UserEntity.fromObject(user);
   }
 
-  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {  
+  async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    console.log('ID en datasource:', updateUserDto.Id);  
+  console.log('updateUserDto.Values:', updateUserDto.Values);  
   await this.findById(updateUserDto.Id);  
   const updateData: any = { ...updateUserDto.Values };  
     
