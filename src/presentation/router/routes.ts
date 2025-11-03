@@ -27,6 +27,9 @@ import { SupplierRoutes } from "../supplier/routes";
     import './submenu-doc';
 import { ImagenRoutes } from "../imagen/routes";
 import { AccountMenuItemRoutes } from "../accountMenuItem/routes";
+import { PointRoutes } from "../sales/point/routes";
+import { SaleDetailRoutes } from "../sales/saledetail/routes";
+import { SaleRoutes } from "../sales/sale/routes";
 //#endregion
 
 
@@ -51,6 +54,9 @@ export class AppRoutes{
         router.use(`/api/${ envs.APP_API_VERSION }/suppliers`, SupplierRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/imagenes`, ImagenRoutes.route);
         router.use(`/api/${ envs.APP_API_VERSION }/accountmenuitem`, AccountMenuItemRoutes.route);
+        router.use(`/api/${ envs.APP_API_VERSION }/points`, PointRoutes.route);
+        router.use(`/api/${ envs.APP_API_VERSION }/saledetails`, SaleDetailRoutes.route);
+        router.use(`/api/${ envs.APP_API_VERSION }/sales`, SaleRoutes.route);
         return router;
     }
 }

@@ -52,3 +52,15 @@ export * from './supplier/update-supplier.dto';
 export * from './accountmenuitem/create-accountmenuitem.dto';
 export * from './accountmenuitem/update-accountmenuitem.dto';
 export * from './accountmenuitem/update-accountmenuitem.dto';
+
+export * from './sales/sale/create-sale.dto';
+export * from './sales/sale/delete-sale.dto';
+export * from './sales/sale/update-sale.dto';
+
+export * from './sales/saledetail/create-sale-detail.dto';
+export * from './sales/saledetail/delete-saledetail.dto';
+export * from './sales/saledetail/update-saledetail.dto';
+
+export * from './sales/point/create-point.dto';
+export * from './sales/point/delete-point.dto';
+export * from './sales/point/update-point.dto';

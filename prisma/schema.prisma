@@ -62,6 +62,7 @@ model Accounts {
   accountMenuItem AccountMenuItem[]  
   sessions  Session[]
   sales    Sales[]
+  Points  Points[]
 }
 
 model Roles {
@@ -265,32 +266,32 @@ model Sales {
   AccountId         String
   InvoiceCode       String   @unique
   OpenWorkTurnId    String?
-  IsOnline          Boolean
-  Total             Decimal   @db.Decimal(18, 2)
-  finalizeSale      Boolean
+  IsOnline          Boolean   @default(false)
+  Total             Decimal   @db.Decimal(18, 2) @default(0)
+  FinalizeSale      Boolean
   TotalProfit       Decimal   @db.Decimal(18, 2)
   SaleType          String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  state             Int      @default(1)
+  CreatedAt         DateTime @default(now())
+  UpdatedAt         DateTime @updatedAt
+  State             Int      @default(1)
 
   account         Accounts     @relation(fields: [AccountId], references: [Id])
   saleDetails    SaleDetails[]
   PayDetail      PayDetails[]
+  Points          Points[]
 }
 
 model SaleDetails {
   Id                String   @id @default(cuid())
   SaleId            String
-  productId         String  
-  price             Decimal   @db.Decimal(18, 2)
-  quantity          Int
-  Total             Decimal   @db.Decimal(18, 2)
+  ProductId         String  
+  Price             Decimal   @db.Decimal(18, 2)
+  Quantity          Int
   Profit            Decimal   @db.Decimal(18, 2)
   SubCategoryId     String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  state             Int      @default(1)
+  CreatedAt         DateTime @default(now())
+  UpdatedAt         DateTime @updatedAt
+  State             Int      @default(1)
 
   sale         Sales     @relation(fields: [SaleId], references: [Id])
 
@@ -307,4 +308,18 @@ model PayDetails {
   state             Int      @default(1)
 
   sale         Sales     @relation(fields: [SaleId], references: [Id])
+}
+
+model Points {
+  Id                String   @id @default(cuid())
+  SaleId            String
+  AccountId         String  
+  Point             BigInt
+  ExpiredDatePoint  DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  state             Int      @default(1)
+
+  sale         Sales     @relation(fields: [SaleId], references: [Id])
+  account         Accounts     @relation(fields: [AccountId], references: [Id])
 }
